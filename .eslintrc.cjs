@@ -1,0 +1,26 @@
+/* eslint-disable */
+module.exports = {
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  root: true,
+  rules: {
+    'arrow-parens': 'off',
+    complexity: ['error', 4],
+    'comma-dangle': 'off',
+    camelcase: 'off',
+    'dot-notation': 'off',
+    'eol-last': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'max-depth': ['error', 3],
+    'max-lines-per-function': ['error', { max: 22, skipComments: true }],
+    'max-params': ['error', 4],
+    'no-console': 'off',
+    'no-duplicate-imports': 'warn',
+    'no-eq-null': 'error',
+    'no-unused-vars': ['error', { args: 'after-used', argsIgnorePattern: '_' }],
+    'no-confusing-arrow': 'off',
+    'object-curly-newline': 'off',
+    semi: ['error', 'never'],
+  },
+};
