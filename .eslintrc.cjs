@@ -1,9 +1,9 @@
 /* eslint-disable */
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
   root: true,
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'arrow-parens': 'off',
     complexity: ['error', 4],
@@ -23,4 +23,4 @@ module.exports = {
     'object-curly-newline': 'off',
     semi: ['error', 'never'],
   },
-};
+}

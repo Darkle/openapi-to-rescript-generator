@@ -20,6 +20,13 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "minimist": "^1.2.8",
+    "openapi3-ts": "^4.1.2",
+    "typescript": "^5.0.4"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.2.4",
     "@types/minimist": "^1.2.2",
@@ -31,19 +38,12 @@
     "husky": "^8.0.3",
     "size-limit": "^8.2.4",
     "tsdx": "^0.14.1",
-    "tslib": "^2.5.0",
-    "typescript": "^5.0.4"
+    "tslib": "^2.5.0"
   },
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
     }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
   },
   "author": "CoopCoding",
   "module": "dist/openapi-to-rescript-generator.esm.js",
@@ -56,11 +56,5 @@
       "path": "dist/openapi-to-rescript-generator.esm.js",
       "limit": "10 KB"
     }
-  ],
-  "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^10.1.0",
-    "@apidevtools/swagger-parser": "^10.1.0",
-    "minimist": "^1.2.8",
-    "openapi3-ts": "^4.1.2"
-  }
+  ]
 }
