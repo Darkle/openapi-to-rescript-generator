@@ -46,19 +46,44 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
     raise(DereferenceError(err))
   }
 
+  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
+  //   let (pathString, pathData) = pathKeyVal
+  //   let pathHttpVerbs = Js.Dict.entries(pathData)
+  // })
+  // Js.log(schema["paths"])
+  // Js.Obj.keys(schema["paths"])->Js.Array2.forEach(path => {
+  //   Js.log(path)
+  //   let pathData = schema["paths"][path]
+  //   // Js.log(Js.Option.getExn())
+  // })
+
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     // Js.log(pathKeyVal)
     let (pathString, pathData) = pathKeyVal
     // Js.log(pathData)
-    let pathHttpVerbs = Js.Dict.keys(pathData)
-    let res = Js.Array2.map(
-      pathHttpVerbs,
-      httpVerb => {
-        Js.log(Js.Dict.get(pathData, httpVerb))
-        httpVerb
+    Js.Dict.entries(pathData)->Js.Array2.forEach(
+      pathHttpVerbAndData => {
+        let (httpVerb, pathHttpVerbData) = pathHttpVerbAndData
+        Js.log(httpVerb)
+        Js.log(pathHttpVerbData)
       },
     )
-    Js.log("=======")
+    // let thing = Js.Dict.get(pathData, "get")
+    // switch thing {
+    // | Some(val) => {
+    //     let thing2 = Js.Dict.keys(val)
+    //   }
+    // | _ => ()
+    // }
+    // let thing2 = Js.Dict.keys(thing)
+    // let res = Js.Array2.map(
+    //   pathHttpVerbs,
+    //   httpVerb => {
+    //     Js.log(Js.Dict.get(pathData, httpVerb))
+    //     httpVerb
+    //   },
+    // )
+    // Js.log("=======")
     // Js.log(res)
   })
 })
