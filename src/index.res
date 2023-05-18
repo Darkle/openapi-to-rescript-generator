@@ -15,39 +15,36 @@ external refParser: refParserDerefFunc = "default"
 @module("minimist")
 external minimist: array<string> => Js.Dict.t<string> = "default"
 
-@val external processExit: int => unit = "process.exit"
+exception InputFileError(string)
+exception ValidationError(Js.Nullable.t<Js.Exn.t>)
+exception DereferenceError(Js.Nullable.t<Js.Exn.t>)
 
 let process = Process.process
 
 let inputFile =
   Process.argv(process)->Js.Array2.slice(~start=2, ~end_=99)->minimist->Js.Dict.get("inputFile")
 
-switch inputFile {
-| None => {
-    Js.Console.error("🚨 Error: --inputFile cli arg not set!")
-    processExit(1)
-  }
-| Some(validInputFile) => {
-    if !Fs.existsSync(validInputFile) {
-      Js.Console.error("🚨 Error: input file does not exist!")
-      processExit(1)
-    }
-
-    swaggerParser.validate(.validInputFile, (. err) => {
-      if Js.Option.isSome(Js.Nullable.toOption(err)) {
-        Js.Console.error(err)
-        processExit(1)
-      }
-    })->ignore
-
-    // This combines all referenced types into one file
-    refParser.dereference(.validInputFile, (. err, schema) => {
-      if Js.Option.isSome(Js.Nullable.toOption(err)) {
-        Js.Console.error(err)
-        processExit(1)
-      }
-
-      Js.Array2.forEach(Js.Dict.keys(schema.paths), p => Js.log(p))
-    })
-  }
+if Js.Option.isNone(inputFile) {
+  raise(InputFileError("🚨 Error: --inputFile cli arg not set!"))
 }
+
+if !Fs.existsSync(Js.Option.getExn(inputFile)) {
+  raise(InputFileError("🚨 Error: input file does not exist!"))
+}
+
+let validInputFile = Js.Option.getExn(inputFile)
+
+swaggerParser.validate(.validInputFile, (. err) => {
+  if Js.Option.isSome(Js.Nullable.toOption(err)) {
+    raise(ValidationError(err))
+  }
+})->ignore
+
+// This combines all referenced types into one file
+refParser.dereference(.validInputFile, (. err, schema) => {
+  if Js.Option.isSome(Js.Nullable.toOption(err)) {
+    raise(DereferenceError(err))
+  }
+
+  Js.Array2.forEach(Js.Dict.keys(schema.paths), p => Js.log(p))
+})

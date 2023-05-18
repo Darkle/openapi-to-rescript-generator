@@ -6,42 +6,68 @@ import * as Process from "process";
 import Minimist from "minimist";
 import * as Js_option from "rescript/lib/es6/js_option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import JsonSchemaRefParser from "@apidevtools/json-schema-ref-parser";
+
+var InputFileError = /* @__PURE__ */Caml_exceptions.create("Index.InputFileError");
+
+var ValidationError = /* @__PURE__ */Caml_exceptions.create("Index.ValidationError");
+
+var DereferenceError = /* @__PURE__ */Caml_exceptions.create("Index.DereferenceError");
 
 var $$process = Process;
 
 var inputFile = Js_dict.get(Minimist($$process.argv.slice(2, 99)), "inputFile");
 
-if (inputFile !== undefined) {
-  if (!Fs.existsSync(inputFile)) {
-    console.error("🚨 Error: input file does not exist!");
-    process.exit(1);
-  }
-  SwaggerParser.validate(inputFile, (function (err) {
-          if (Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
-            console.error(err);
-            process.exit(1);
-            return ;
-          }
-          
-        }));
-  JsonSchemaRefParser.dereference(inputFile, (function (err, schema) {
-          if (Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
-            console.error(err);
-            process.exit(1);
-          }
-          Object.keys(schema.paths).forEach(function (p) {
-                console.log(p);
-              });
-        }));
-} else {
-  console.error("🚨 Error: --inputFile cli arg not set!");
-  process.exit(1);
+if (Js_option.isNone(inputFile)) {
+  throw {
+        RE_EXN_ID: InputFileError,
+        _1: "🚨 Error: --inputFile cli arg not set!",
+        Error: new Error()
+      };
 }
 
+if (!Fs.existsSync(Js_option.getExn(inputFile))) {
+  throw {
+        RE_EXN_ID: InputFileError,
+        _1: "🚨 Error: input file does not exist!",
+        Error: new Error()
+      };
+}
+
+var validInputFile = Js_option.getExn(inputFile);
+
+SwaggerParser.validate(validInputFile, (function (err) {
+        if (!Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
+          return ;
+        }
+        throw {
+              RE_EXN_ID: ValidationError,
+              _1: err,
+              Error: new Error()
+            };
+      }));
+
+JsonSchemaRefParser.dereference(validInputFile, (function (err, schema) {
+        if (Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
+          throw {
+                RE_EXN_ID: DereferenceError,
+                _1: err,
+                Error: new Error()
+              };
+        }
+        Object.keys(schema.paths).forEach(function (p) {
+              console.log(p);
+            });
+      }));
+
 export {
+  InputFileError ,
+  ValidationError ,
+  DereferenceError ,
   $$process ,
   inputFile ,
+  validInputFile ,
 }
 /* process Not a pure module */
