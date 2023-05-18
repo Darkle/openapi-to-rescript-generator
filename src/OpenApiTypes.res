@@ -72,7 +72,7 @@ type responsesObject = {
 
 type parameterObject = {
   name: string,
-  in_: [#query | #header | #path | #cookie],
+  @as("in") in_: [#query | #header | #path | #cookie],
   required: option<bool>,
   schema: schemaObject,
 }
@@ -86,14 +86,14 @@ type openApiOperationObject = {
 
 type pathItemOpject = {
   // parameters: array<parameterObject>,
-  get: option<openApiOperationObject>,
-  put: option<openApiOperationObject>,
-  post: option<openApiOperationObject>,
-  delete: option<openApiOperationObject>,
-  options: option<openApiOperationObject>,
-  head: option<openApiOperationObject>,
-  patch: option<openApiOperationObject>,
-  trace: option<openApiOperationObject>,
+  get: option<Js.Dict.t<openApiOperationObject>>,
+  put: option<Js.Dict.t<openApiOperationObject>>,
+  post: option<Js.Dict.t<openApiOperationObject>>,
+  delete: option<Js.Dict.t<openApiOperationObject>>,
+  options: option<Js.Dict.t<openApiOperationObject>>,
+  head: option<Js.Dict.t<openApiOperationObject>>,
+  patch: option<Js.Dict.t<openApiOperationObject>>,
+  trace: option<Js.Dict.t<openApiOperationObject>>,
 }
 
 /* cSpell:disable */
@@ -120,7 +120,7 @@ Example:
 /* cSpell:enable */
 
 // Not typing all of it atm.
-type openApi = {paths: Js.Dict.t<Js.Dict.t<pathItemOpject>>}
+type openApi = {paths: Js.Dict.t<pathItemOpject>}
 
 // type openApiOperationObject = {
 //   operationId: option<string>,

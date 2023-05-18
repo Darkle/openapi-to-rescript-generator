@@ -60,14 +60,15 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     // Js.log(pathKeyVal)
     let (pathString, pathData) = pathKeyVal
+    Js.Option.getExn(pathData, "get")
     // Js.log(pathData)
-    Js.Dict.entries(pathData)->Js.Array2.forEach(
-      pathHttpVerbAndData => {
-        let (httpVerb, pathHttpVerbData) = pathHttpVerbAndData
-        Js.log(httpVerb)
-        Js.log(pathHttpVerbData)
-      },
-    )
+    // Js.Dict.entries(pathData)->Js.Array2.forEach(
+    //   pathHttpVerbAndData => {
+    //     let (httpVerb, httpVerbData) = pathHttpVerbAndData
+    //     Js.log(httpVerb)
+    //     Js.log(httpVerbData)
+    //   },
+    // )
     // let thing = Js.Dict.get(pathData, "get")
     // switch thing {
     // | Some(val) => {

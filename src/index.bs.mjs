@@ -58,10 +58,7 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
-              Js_dict.entries(pathKeyVal[1]).forEach(function (pathHttpVerbAndData) {
-                    console.log(pathHttpVerbAndData[0]);
-                    console.log(pathHttpVerbAndData[1]);
-                  });
+              
             });
       }));
 
