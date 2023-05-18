@@ -28,7 +28,9 @@ if (Js_option.isNone(inputFile)) {
       };
 }
 
-if (!Fs.existsSync(Js_option.getExn(inputFile))) {
+var validInputFileArg = Js_option.getExn(inputFile);
+
+if (!Fs.existsSync(validInputFileArg)) {
   throw {
         RE_EXN_ID: InputFileError,
         _1: "🚨 Error: input file does not exist!",
@@ -36,9 +38,7 @@ if (!Fs.existsSync(Js_option.getExn(inputFile))) {
       };
 }
 
-var validInputFile = Js_option.getExn(inputFile);
-
-SwaggerParser.validate(validInputFile, (function (err) {
+SwaggerParser.validate(validInputFileArg, (function (err) {
         if (!Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
           return ;
         }
@@ -49,7 +49,7 @@ SwaggerParser.validate(validInputFile, (function (err) {
             };
       }));
 
-JsonSchemaRefParser.dereference(validInputFile, (function (err, schema) {
+JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
         if (Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
           throw {
                 RE_EXN_ID: DereferenceError,
@@ -57,8 +57,14 @@ JsonSchemaRefParser.dereference(validInputFile, (function (err, schema) {
                 Error: new Error()
               };
         }
-        Object.keys(schema.paths).forEach(function (p) {
-              console.log(p);
+        Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
+              var pathData = pathKeyVal[1];
+              var pathHttpVerbs = Object.keys(pathData);
+              pathHttpVerbs.map(function (httpVerb) {
+                    console.log(Js_dict.get(pathData, httpVerb));
+                    return httpVerb;
+                  });
+              console.log("=======");
             });
       }));
 
@@ -68,6 +74,6 @@ export {
   DereferenceError ,
   $$process ,
   inputFile ,
-  validInputFile ,
+  validInputFileArg ,
 }
 /* process Not a pure module */

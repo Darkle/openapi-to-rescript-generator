@@ -28,23 +28,52 @@ if Js.Option.isNone(inputFile) {
   raise(InputFileError("🚨 Error: --inputFile cli arg not set!"))
 }
 
-if !Fs.existsSync(Js.Option.getExn(inputFile)) {
+let validInputFileArg = Js.Option.getExn(inputFile)
+
+if !Fs.existsSync(validInputFileArg) {
   raise(InputFileError("🚨 Error: input file does not exist!"))
 }
 
-let validInputFile = Js.Option.getExn(inputFile)
-
-swaggerParser.validate(.validInputFile, (. err) => {
+swaggerParser.validate(.validInputFileArg, (. err) => {
   if Js.Option.isSome(Js.Nullable.toOption(err)) {
     raise(ValidationError(err))
   }
 })->ignore
 
 // This combines all referenced types into one file
-refParser.dereference(.validInputFile, (. err, schema) => {
+refParser.dereference(.validInputFileArg, (. err, schema) => {
   if Js.Option.isSome(Js.Nullable.toOption(err)) {
     raise(DereferenceError(err))
   }
 
-  Js.Array2.forEach(Js.Dict.keys(schema.paths), p => Js.log(p))
+  Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
+    // Js.log(pathKeyVal)
+    let (pathString, pathData) = pathKeyVal
+    // Js.log(pathData)
+    let pathHttpVerbs = Js.Dict.keys(pathData)
+    let res = Js.Array2.map(
+      pathHttpVerbs,
+      httpVerb => {
+        Js.log(Js.Dict.get(pathData, httpVerb))
+        httpVerb
+      },
+    )
+    Js.log("=======")
+    // Js.log(res)
+  })
 })
+
+// let convertedPaths = Js.Dict.map((. pathKeyVal) => {
+//   Js.log(pathKeyVal)
+//   // let (pathString, pathData) = pathKeyVal
+//   // let pathHttpVerbs = Js.Obj.keys(pathData)
+//   // let res = Js.Array2.map(
+//   //   pathHttpVerbs,
+//   //   httpVerb => {
+//   //     Js.log(Js.Dict.get(pathData, httpVerb))
+//   //     httpVerb
+//   //   },
+//   // )
+//   // Js.log("=======")
+//   // Js.log(res)
+// }, schema.paths)

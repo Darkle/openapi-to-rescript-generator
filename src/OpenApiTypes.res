@@ -21,19 +21,20 @@ type openApiOperationObject = {
   operationId: string,
   requestBody: requestBodyObject,
   responses: responsesObject,
+  parameters: array<Js.Dict.t<parameterObject>>,
 }
 
 type pathItemOpject = {
-  parameters: array<parameterObject>,
-  get: openApiOperationObject,
-  put: openApiOperationObject,
-  post: openApiOperationObject,
-  delete: openApiOperationObject,
-  options: openApiOperationObject,
-  head: openApiOperationObject,
-  patch: openApiOperationObject,
-  trace: openApiOperationObject,
+  // parameters: array<Js.Dict.t<parameterObject>>,
+  get: Js.Dict.t<openApiOperationObject>,
+  put: Js.Dict.t<openApiOperationObject>,
+  post: Js.Dict.t<openApiOperationObject>,
+  delete: Js.Dict.t<openApiOperationObject>,
+  options: Js.Dict.t<openApiOperationObject>,
+  head: Js.Dict.t<openApiOperationObject>,
+  patch: Js.Dict.t<openApiOperationObject>,
+  trace: Js.Dict.t<openApiOperationObject>,
 }
 
 // Not typing all of it atm.
-type openApi = {paths: Js.Dict.t<pathItemOpject>}
+type openApi = {paths: Js.Dict.t<Js.Dict.t<pathItemOpject>>}
