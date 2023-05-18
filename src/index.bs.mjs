@@ -58,6 +58,11 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
+              var $$delete = pathKeyVal[1].delete;
+              if ($$delete !== undefined) {
+                console.log($$delete);
+                return ;
+              }
               
             });
       }));

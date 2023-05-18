@@ -46,6 +46,38 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
     raise(DereferenceError(err))
   }
 
+  // Js.log(schema.paths)
+  Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
+    let (pathString, pathData) = pathKeyVal
+    // Js.log(pathData)
+    switch pathData {
+    // | {get} => Js.log(get)
+    // | {put} => Js.log(put)
+    // | {post} => Js.log(post)
+    | {delete} => Js.log(delete)
+    // | {options} => Js.log(options)
+    // | {head} => Js.log(head)
+    // | {patch} => Js.log(patch)
+    // | {trace} => Js.log(trace)
+    | _ => ()
+    }
+
+    // let pathHttpVerbs = Js.Dict.entries(pathData)
+    // if Js.Option.isSome(pathData.get) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.get))
+    // }
+    // switch pathData {
+    // | "get" => Js.log(get)
+    // | _ => Js.log("got nothing")
+    // }
+  })
+  // let foo = Belt.Map.String.toArray(Js.Option.getExn(schema.paths.get))
+  // Js.log(Belt.Map.String.get(schema.paths, "get"))
+  // let foo = Belt.Map.String.forEach(schema.paths, (key, v) => {
+  //   Js.log(key)
+  //   Js.log(v)
+  // })
+
   // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
   //   let (pathString, pathData) = pathKeyVal
   //   let pathHttpVerbs = Js.Dict.entries(pathData)
@@ -57,36 +89,55 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   //   // Js.log(Js.Option.getExn())
   // })
 
-  Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
-    // Js.log(pathKeyVal)
-    let (pathString, pathData) = pathKeyVal
-    Js.Option.getExn(pathData, "get")
-    // Js.log(pathData)
-    // Js.Dict.entries(pathData)->Js.Array2.forEach(
-    //   pathHttpVerbAndData => {
-    //     let (httpVerb, httpVerbData) = pathHttpVerbAndData
-    //     Js.log(httpVerb)
-    //     Js.log(httpVerbData)
-    //   },
-    // )
-    // let thing = Js.Dict.get(pathData, "get")
-    // switch thing {
-    // | Some(val) => {
-    //     let thing2 = Js.Dict.keys(val)
-    //   }
-    // | _ => ()
-    // }
-    // let thing2 = Js.Dict.keys(thing)
-    // let res = Js.Array2.map(
-    //   pathHttpVerbs,
-    //   httpVerb => {
-    //     Js.log(Js.Dict.get(pathData, httpVerb))
-    //     httpVerb
-    //   },
-    // )
-    // Js.log("=======")
-    // Js.log(res)
-  })
+  // S.parseWith(schema, OpenApiTypes.openApiStruct)
+
+  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(path => {
+  // let (pathString, pathData) = path
+  // Js.log(schema["paths"])
+  // switch path {
+  // | Some("get") => expression
+  // | pattern2 => expression
+  // }
+  // let foo = Js.Dict.get(pathData, "get")
+  // Js.log(Js.Dict.get(pathData, "get"))
+  // switch pathData {
+  // | Some("get") => expression
+  // | pattern2 => expression
+  // }
+  // Js.log(Js.Obj.keys(Js.Option.getExn(pathData, "get")))
+  // Js.log(schema["paths"][path])
+  // Js.log("===========================")
+  // })
+  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
+  //   // Js.log(pathKeyVal)
+  //   let (pathString, pathData) = pathKeyVal
+  //   Js.Option.getExn(pathData, "get")
+  //   // Js.log(pathData)
+  //   // Js.Dict.entries(pathData)->Js.Array2.forEach(
+  //   //   pathHttpVerbAndData => {
+  //   //     let (httpVerb, httpVerbData) = pathHttpVerbAndData
+  //   //     Js.log(httpVerb)
+  //   //     Js.log(httpVerbData)
+  //   //   },
+  //   // )
+  //   // let thing = Js.Dict.get(pathData, "get")
+  //   // switch thing {
+  //   // | Some(val) => {
+  //   //     let thing2 = Js.Dict.keys(val)
+  //   //   }
+  //   // | _ => ()
+  //   // }
+  //   // let thing2 = Js.Dict.keys(thing)
+  //   // let res = Js.Array2.map(
+  //   //   pathHttpVerbs,
+  //   //   httpVerb => {
+  //   //     Js.log(Js.Dict.get(pathData, httpVerb))
+  //   //     httpVerb
+  //   //   },
+  //   // )
+  //   // Js.log("=======")
+  //   // Js.log(res)
+  // })
 })
 
 // let convertedPaths = Js.Dict.map((. pathKeyVal) => {

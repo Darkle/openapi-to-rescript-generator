@@ -2,7 +2,7 @@ type schemaObject = {}
 
 type mediaTypeObject = {schema: schemaObject}
 
-type requestBodyObject = {required: option<bool>, content: mediaTypeObject}
+type requestBodyObject = {required?: bool, content: mediaTypeObject}
 
 type responseObjectContent = {content: mediaTypeObject}
 
@@ -73,54 +73,76 @@ type responsesObject = {
 type parameterObject = {
   name: string,
   @as("in") in_: [#query | #header | #path | #cookie],
-  required: option<bool>,
+  required?: bool,
   schema: schemaObject,
 }
 
 type openApiOperationObject = {
-  operationId: option<string>,
-  requestBody: option<requestBodyObject>,
+  operationId?: string,
+  requestBody?: requestBodyObject,
   responses: responsesObject,
   parameters: array<parameterObject>,
 }
 
+// parameters: array<parameterObject>,
 type pathItemOpject = {
-  // parameters: array<parameterObject>,
-  get: option<Js.Dict.t<openApiOperationObject>>,
-  put: option<Js.Dict.t<openApiOperationObject>>,
-  post: option<Js.Dict.t<openApiOperationObject>>,
-  delete: option<Js.Dict.t<openApiOperationObject>>,
-  options: option<Js.Dict.t<openApiOperationObject>>,
-  head: option<Js.Dict.t<openApiOperationObject>>,
-  patch: option<Js.Dict.t<openApiOperationObject>>,
-  trace: option<Js.Dict.t<openApiOperationObject>>,
+  get?: openApiOperationObject,
+  put?: openApiOperationObject,
+  post?: openApiOperationObject,
+  delete?: openApiOperationObject,
+  options?: openApiOperationObject,
+  head?: openApiOperationObject,
+  patch?: openApiOperationObject,
+  trace?: openApiOperationObject,
 }
 
-/* cSpell:disable */
-/*
-Example: 
-{
-  paths: 
-  {
-    '/favs/all': {
-      get: {
-        operationId: 'getAllFavs',
-        ...
-      }
-    },
-    '/favs/subs': {
-      get: {
-        operationId: 'getFavSubs',
-        ...
-      }
-    },
-  }
-}
-*/
-/* cSpell:enable */
+// /* cSpell:disable */
+// /*
+// Example:
+// {
+//   paths:
+//   {
+//     '/favs/all': {
+//       get: {
+//         operationId: 'getAllFavs',
+//         ...
+//       }
+//     },
+//     '/favs/subs': {
+//       get: {
+//         operationId: 'getFavSubs',
+//         ...
+//       }
+//     },
+//   }
+// }
+// */
+// /* cSpell:enable */
 
-// Not typing all of it atm.
+// // Not typing all of it atm.
 type openApi = {paths: Js.Dict.t<pathItemOpject>}
+
+// type openApiOperationObject = {operationId?: string}
+
+// type pathItemOpject = {get: option<openApiOperationObject>}
+
+// let openApiStruct = S.object(o => {
+//   paths: o->S.field(
+//     "paths",
+//     S.object(o => {
+//       get: o->S.field(
+//         "get",
+//         S.option(
+//           S.object(
+//             o => {
+//               operationId: o->S.field("operationId", S.string()),
+//             },
+//           ),
+//         ),
+//       ),
+//     }),
+//   ),
+// })
 
 // type openApiOperationObject = {
 //   operationId: option<string>,
