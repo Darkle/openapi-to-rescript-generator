@@ -59,11 +59,12 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
-              var objEntries = Object.entries;
-              Curry._1(objEntries, pathKeyVal[1]).map(function (entry) {
-                    console.log(entry[0], entry[1]);
+              var getPathDataObjEntries = Object.entries;
+              var pathDataStuff = Curry._1(getPathDataObjEntries, pathKeyVal[1]).map(function (entry) {
+                    
                   });
               console.log("================================");
+              console.log(pathDataStuff);
             });
       }));
 

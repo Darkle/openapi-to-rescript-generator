@@ -51,27 +51,21 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     let (pathString, pathData) = pathKeyVal
 
-    let objEntries: 't => array<(
+    let getPathDataObjEntries: 't => array<(
       string,
       OpenApiTypes.openApiOperationObject,
     )> = %raw(`Object.entries`)
 
     // Getting get/patch/delete entries for the path data
-    let pathDataStuff = objEntries(pathData)->Js.Array2.map(
+    let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
       entry => {
-        // Js.log("================================")
-        // Js.log(entry)
         let (httpVerb, httpVerbData) = entry
-        // let foo = entry[0]
-        // let foo2 = entry[1]
-        // Js.log(Js.String.charAt(foo, 0))
-        // Js.log(foo2.operationId)
-        // Js.log(foo2)
-        // let (httpVerb, httpVerbData) = entryTuple
-        Js.log2(httpVerb, httpVerbData)
+
+        let {operationId, parameters, responses} = httpVerbData
       },
     )
     Js.log("================================")
+    Js.log(pathDataStuff)
     // Js.log(pathDataStuff)
     // if Js.Option.isSome(pathData.get) {
     //   Js.log2(pathString, Js.Option.getExn(pathData.get))
