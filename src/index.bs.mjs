@@ -58,12 +58,15 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
-              var $$delete = pathKeyVal[1].delete;
-              if ($$delete !== undefined) {
-                console.log($$delete);
-                return ;
-              }
-              
+              var pathData = pathKeyVal[1];
+              var pathString = pathKeyVal[0];
+              Object.keys(pathData).forEach(function (httpVerb) {
+                    if (Js_option.isSome(pathData.get)) {
+                      console.log(pathString, httpVerb, Js_option.getExn(pathData.get));
+                      return ;
+                    }
+                    
+                  });
             });
       }));
 

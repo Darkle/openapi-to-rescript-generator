@@ -50,17 +50,28 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     let (pathString, pathData) = pathKeyVal
     // Js.log(pathData)
-    switch pathData {
-    // | {get} => Js.log(get)
-    // | {put} => Js.log(put)
-    // | {post} => Js.log(post)
-    | {delete} => Js.log(delete)
-    // | {options} => Js.log(options)
-    // | {head} => Js.log(head)
-    // | {patch} => Js.log(patch)
-    // | {trace} => Js.log(trace)
-    | _ => ()
-    }
+    // Js.log(pathData)
+    Js.Array2.forEach(
+      Js.Obj.keys(pathData),
+      httpVerb => {
+        if Js.Option.isSome(pathData["get"]) {
+          Js.log3(pathString, httpVerb, Js.Option.getExn(pathData["get"]))
+        }
+        // let (httpVerb, httpVerbData) =  httpVerbAndData
+        // Js.log2(httpVerb, httpVerbData[""])
+      },
+    )
+    // switch pathData {
+    // // | {get} => Js.log(get)
+    // // | {put} => Js.log(put)
+    // // | {post} => Js.log(post)
+    // | {delete} => Js.log(delete)
+    // // | {options} => Js.log(options)
+    // // | {head} => Js.log(head)
+    // // | {patch} => Js.log(patch)
+    // // | {trace} => Js.log(trace)
+    // | _ => ()
+    // }
 
     // let pathHttpVerbs = Js.Dict.entries(pathData)
     // if Js.Option.isSome(pathData.get) {

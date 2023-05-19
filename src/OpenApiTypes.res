@@ -86,14 +86,14 @@ type openApiOperationObject = {
 
 // parameters: array<parameterObject>,
 type pathItemOpject = {
-  get?: openApiOperationObject,
-  put?: openApiOperationObject,
-  post?: openApiOperationObject,
-  delete?: openApiOperationObject,
-  options?: openApiOperationObject,
-  head?: openApiOperationObject,
-  patch?: openApiOperationObject,
-  trace?: openApiOperationObject,
+  "get": option<openApiOperationObject>,
+  "put": option<openApiOperationObject>,
+  "post": option<openApiOperationObject>,
+  "delete": option<openApiOperationObject>,
+  "options": option<openApiOperationObject>,
+  "head": option<openApiOperationObject>,
+  "patch": option<openApiOperationObject>,
+  "trace": option<openApiOperationObject>,
 }
 
 // /* cSpell:disable */
