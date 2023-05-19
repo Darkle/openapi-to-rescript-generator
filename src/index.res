@@ -40,128 +40,62 @@ swaggerParser.validate(.validInputFileArg, (. err) => {
   }
 })->ignore
 
+// type objEntries = (string, OpenApiTypes.pathItemObject)
+
 // This combines all referenced types into one file
 refParser.dereference(.validInputFileArg, (. err, schema) => {
   if Js.Option.isSome(Js.Nullable.toOption(err)) {
     raise(DereferenceError(err))
   }
 
-  // Js.log(schema.paths)
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     let (pathString, pathData) = pathKeyVal
-    // Js.log(pathData)
-    // Js.log(pathData)
-    Js.Array2.forEach(
-      Js.Obj.keys(pathData),
-      httpVerb => {
-        if Js.Option.isSome(pathData["get"]) {
-          Js.log3(pathString, httpVerb, Js.Option.getExn(pathData["get"]))
-        }
-        // let (httpVerb, httpVerbData) =  httpVerbAndData
-        // Js.log2(httpVerb, httpVerbData[""])
+
+    let objEntries: 't => array<(
+      string,
+      OpenApiTypes.openApiOperationObject,
+    )> = %raw(`Object.entries`)
+
+    // Getting get/patch/delete entries for the path data
+    let pathDataStuff = objEntries(pathData)->Js.Array2.map(
+      entry => {
+        // Js.log("================================")
+        // Js.log(entry)
+        let (httpVerb, httpVerbData) = entry
+        // let foo = entry[0]
+        // let foo2 = entry[1]
+        // Js.log(Js.String.charAt(foo, 0))
+        // Js.log(foo2.operationId)
+        // Js.log(foo2)
+        // let (httpVerb, httpVerbData) = entryTuple
+        Js.log2(httpVerb, httpVerbData)
       },
     )
-    // switch pathData {
-    // // | {get} => Js.log(get)
-    // // | {put} => Js.log(put)
-    // // | {post} => Js.log(post)
-    // | {delete} => Js.log(delete)
-    // // | {options} => Js.log(options)
-    // // | {head} => Js.log(head)
-    // // | {patch} => Js.log(patch)
-    // // | {trace} => Js.log(trace)
-    // | _ => ()
-    // }
-
-    // let pathHttpVerbs = Js.Dict.entries(pathData)
+    Js.log("================================")
+    // Js.log(pathDataStuff)
     // if Js.Option.isSome(pathData.get) {
     //   Js.log2(pathString, Js.Option.getExn(pathData.get))
     // }
-    // switch pathData {
-    // | "get" => Js.log(get)
-    // | _ => Js.log("got nothing")
+    // if Js.Option.isSome(pathData.put) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.put))
+    // }
+    // if Js.Option.isSome(pathData.post) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.post))
+    // }
+    // if Js.Option.isSome(pathData.delete) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.delete))
+    // }
+    // if Js.Option.isSome(pathData.options) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.options))
+    // }
+    // if Js.Option.isSome(pathData.head) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.head))
+    // }
+    // if Js.Option.isSome(pathData.patch) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.patch))
+    // }
+    // if Js.Option.isSome(pathData.trace) {
+    //   Js.log2(pathString, Js.Option.getExn(pathData.trace))
     // }
   })
-  // let foo = Belt.Map.String.toArray(Js.Option.getExn(schema.paths.get))
-  // Js.log(Belt.Map.String.get(schema.paths, "get"))
-  // let foo = Belt.Map.String.forEach(schema.paths, (key, v) => {
-  //   Js.log(key)
-  //   Js.log(v)
-  // })
-
-  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
-  //   let (pathString, pathData) = pathKeyVal
-  //   let pathHttpVerbs = Js.Dict.entries(pathData)
-  // })
-  // Js.log(schema["paths"])
-  // Js.Obj.keys(schema["paths"])->Js.Array2.forEach(path => {
-  //   Js.log(path)
-  //   let pathData = schema["paths"][path]
-  //   // Js.log(Js.Option.getExn())
-  // })
-
-  // S.parseWith(schema, OpenApiTypes.openApiStruct)
-
-  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(path => {
-  // let (pathString, pathData) = path
-  // Js.log(schema["paths"])
-  // switch path {
-  // | Some("get") => expression
-  // | pattern2 => expression
-  // }
-  // let foo = Js.Dict.get(pathData, "get")
-  // Js.log(Js.Dict.get(pathData, "get"))
-  // switch pathData {
-  // | Some("get") => expression
-  // | pattern2 => expression
-  // }
-  // Js.log(Js.Obj.keys(Js.Option.getExn(pathData, "get")))
-  // Js.log(schema["paths"][path])
-  // Js.log("===========================")
-  // })
-  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
-  //   // Js.log(pathKeyVal)
-  //   let (pathString, pathData) = pathKeyVal
-  //   Js.Option.getExn(pathData, "get")
-  //   // Js.log(pathData)
-  //   // Js.Dict.entries(pathData)->Js.Array2.forEach(
-  //   //   pathHttpVerbAndData => {
-  //   //     let (httpVerb, httpVerbData) = pathHttpVerbAndData
-  //   //     Js.log(httpVerb)
-  //   //     Js.log(httpVerbData)
-  //   //   },
-  //   // )
-  //   // let thing = Js.Dict.get(pathData, "get")
-  //   // switch thing {
-  //   // | Some(val) => {
-  //   //     let thing2 = Js.Dict.keys(val)
-  //   //   }
-  //   // | _ => ()
-  //   // }
-  //   // let thing2 = Js.Dict.keys(thing)
-  //   // let res = Js.Array2.map(
-  //   //   pathHttpVerbs,
-  //   //   httpVerb => {
-  //   //     Js.log(Js.Dict.get(pathData, httpVerb))
-  //   //     httpVerb
-  //   //   },
-  //   // )
-  //   // Js.log("=======")
-  //   // Js.log(res)
-  // })
 })
-
-// let convertedPaths = Js.Dict.map((. pathKeyVal) => {
-//   Js.log(pathKeyVal)
-//   // let (pathString, pathData) = pathKeyVal
-//   // let pathHttpVerbs = Js.Obj.keys(pathData)
-//   // let res = Js.Array2.map(
-//   //   pathHttpVerbs,
-//   //   httpVerb => {
-//   //     Js.log(Js.Dict.get(pathData, httpVerb))
-//   //     httpVerb
-//   //   },
-//   // )
-//   // Js.log("=======")
-//   // Js.log(res)
-// }, schema.paths)

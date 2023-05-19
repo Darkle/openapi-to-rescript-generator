@@ -2,7 +2,7 @@ type schemaObject = {}
 
 type mediaTypeObject = {schema: schemaObject}
 
-type requestBodyObject = {required?: bool, content: mediaTypeObject}
+type requestBodyObject = {required: option<bool>, content: mediaTypeObject}
 
 type responseObjectContent = {content: mediaTypeObject}
 
@@ -73,27 +73,27 @@ type responsesObject = {
 type parameterObject = {
   name: string,
   @as("in") in_: [#query | #header | #path | #cookie],
-  required?: bool,
+  required: option<bool>,
   schema: schemaObject,
 }
 
 type openApiOperationObject = {
-  operationId?: string,
-  requestBody?: requestBodyObject,
+  operationId: option<string>,
+  requestBody: option<requestBodyObject>,
   responses: responsesObject,
   parameters: array<parameterObject>,
 }
 
 // parameters: array<parameterObject>,
-type pathItemOpject = {
-  "get": option<openApiOperationObject>,
-  "put": option<openApiOperationObject>,
-  "post": option<openApiOperationObject>,
-  "delete": option<openApiOperationObject>,
-  "options": option<openApiOperationObject>,
-  "head": option<openApiOperationObject>,
-  "patch": option<openApiOperationObject>,
-  "trace": option<openApiOperationObject>,
+type pathItemObject = {
+  get: openApiOperationObject,
+  put: openApiOperationObject,
+  post: openApiOperationObject,
+  delete: openApiOperationObject,
+  options: openApiOperationObject,
+  head: openApiOperationObject,
+  patch: openApiOperationObject,
+  trace: openApiOperationObject,
 }
 
 // /* cSpell:disable */
@@ -119,45 +119,5 @@ type pathItemOpject = {
 // */
 // /* cSpell:enable */
 
-// // Not typing all of it atm.
-type openApi = {paths: Js.Dict.t<pathItemOpject>}
-
-// type openApiOperationObject = {operationId?: string}
-
-// type pathItemOpject = {get: option<openApiOperationObject>}
-
-// let openApiStruct = S.object(o => {
-//   paths: o->S.field(
-//     "paths",
-//     S.object(o => {
-//       get: o->S.field(
-//         "get",
-//         S.option(
-//           S.object(
-//             o => {
-//               operationId: o->S.field("operationId", S.string()),
-//             },
-//           ),
-//         ),
-//       ),
-//     }),
-//   ),
-// })
-
-// type openApiOperationObject = {
-//   operationId: option<string>,
-//   thing: string,
-// }
-
-// type pathItemOpject = {
-//   get: option<Js.Dict.t<openApiOperationObject>>,
-//   put: option<Js.Dict.t<openApiOperationObject>>,
-//   post: option<Js.Dict.t<openApiOperationObject>>,
-//   delete: option<Js.Dict.t<openApiOperationObject>>,
-//   options: option<Js.Dict.t<openApiOperationObject>>,
-//   head: option<Js.Dict.t<openApiOperationObject>>,
-//   patch: option<Js.Dict.t<openApiOperationObject>>,
-//   trace: option<Js.Dict.t<openApiOperationObject>>,
-// }
-
-// type openApi = {paths: Js.Dict.t<pathItemOpject>}
+// Not typing all of it atm.
+type openApi = {paths: Js.Dict.t<pathItemObject>}
