@@ -1,8 +1,6 @@
 module Api = {
 {{#each paths}}
-
   {{setVariable 'apiPath' @key}}
-
   {{#each this}}
     module {{capitalize this.operationId}} = {
       let apiPath = "{{@root.apiPath}}"
@@ -13,33 +11,38 @@ module Api = {
         module PathParams = {
           {{#each parameters}}
             {{#if (eq in 'path')}}
-              @spice
-              type {{name}}{{#unless required}}?{{/unless}} = 
+              {{{genSpiceType required name schema}}}
             {{/if}}
           {{/each}}
         }
       {{/if}}
+
       {{#if (paramContainsParamType 'query' parameters)}}
         module QueryParams = {
           {{#each parameters}}
-            @spice
-            type {{name}}{{#unless required}}?{{/unless}} = 
+            {{#if (eq in 'query')}}
+              {{{genSpiceType required name schema}}}
+            {{/if}}
           {{/each}}
         }
       {{/if}}
+
       {{#if (paramContainsParamType 'header' parameters)}}
         module HeaderParams = {
           {{#each parameters}}
-            @spice
-            type {{name}}{{#unless required}}?{{/unless}} = 
+            {{#if (eq in 'header')}}
+              {{{genSpiceType required name schema}}}
+            {{/if}}
           {{/each}}
         }
       {{/if}}
+      
       {{#if (paramContainsParamType 'cookie' parameters)}}
         module CookieParams = {
           {{#each parameters}}
-            @spice
-            type {{name}}{{#unless required}}?{{/unless}} = 
+            {{#if (eq in 'cookie')}}
+              {{{genSpiceType required name schema}}}
+            {{/if}}
           {{/each}}
         }
       {{/if}}
