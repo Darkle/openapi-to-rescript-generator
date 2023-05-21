@@ -10,6 +10,6 @@
     "in-source": true
   },
   "suffix": ".bs.mjs",
-  "bs-dependencies": ["rescript-nodejs", "@greenlabs/ppx-spice"],
+  "bs-dependencies": ["@greenlabs/ppx-spice"],
   "ppx-flags": ["@greenlabs/ppx-spice/ppx"]
 }

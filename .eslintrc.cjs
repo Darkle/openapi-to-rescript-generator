@@ -1,15 +1,9 @@
 /* eslint-disable */
 module.exports = {
+  parser: '@typescript-eslint/parser',
   root: true,
-  parserOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module',
-  },
-  env: {
-    node: true,
-    es2022: true,
-  },
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'arrow-parens': 'off',
     complexity: ['error', 4],
@@ -23,8 +17,10 @@ module.exports = {
     'max-params': ['error', 4],
     'no-console': 'off',
     'no-duplicate-imports': 'warn',
+    'no-eq-null': 'error',
     'no-unused-vars': ['error', { args: 'after-used', argsIgnorePattern: '_' }],
     'no-confusing-arrow': 'off',
     'object-curly-newline': 'off',
+    semi: ['error', 'never'],
   },
 }
