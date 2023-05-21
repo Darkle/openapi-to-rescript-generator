@@ -6,6 +6,7 @@ import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as Process from "process";
 import Minimist from "minimist";
 import * as Js_option from "rescript/lib/es6/js_option.js";
+import * as Handlebars from "./Handlebars.bs.mjs";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 import SwaggerParser from "@apidevtools/swagger-parser";
@@ -50,6 +51,10 @@ SwaggerParser.validate(validInputFileArg, (function (err) {
             };
       }));
 
+var template = {
+  contents: Handlebars.compileTemplate({})
+};
+
 JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
         if (Js_option.isSome((err == null) ? undefined : Caml_option.some(err))) {
           throw {
@@ -59,12 +64,22 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         Js_dict.entries(schema.paths).forEach(function (pathKeyVal) {
+              var pathString = pathKeyVal[0];
+              if (!(pathString === "/logs/create" || pathString === "/posts/get/single/{postId}")) {
+                return ;
+              }
+              var pathData = pathKeyVal[1];
+              template.contents = Handlebars.compileTemplate({
+                    pathItemObjects: pathData,
+                    pathString: pathString
+                  });
+              console.log(template.contents);
               var getPathDataObjEntries = Object.entries;
-              var pathDataStuff = Curry._1(getPathDataObjEntries, pathKeyVal[1]).map(function (entry) {
+              var pathDataStuff = Curry._1(getPathDataObjEntries, pathData).map(function (entry) {
                     
                   });
               console.log("================================");
-              console.log(pathDataStuff);
+              console.log(pathDataStuff.length);
             });
       }));
 
@@ -75,5 +90,6 @@ export {
   $$process ,
   inputFile ,
   validInputFileArg ,
+  template ,
 }
 /* process Not a pure module */

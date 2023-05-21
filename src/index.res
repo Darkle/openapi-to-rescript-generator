@@ -40,7 +40,7 @@ swaggerParser.validate(.validInputFileArg, (. err) => {
   }
 })->ignore
 
-// type objEntries = (string, OpenApiTypes.pathItemObject)
+let template = ref(Handlebars.compileTemplate(. {}))
 
 // This combines all referenced types into one file
 refParser.dereference(.validInputFileArg, (. err, schema) => {
@@ -51,45 +51,112 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
     let (pathString, pathData) = pathKeyVal
 
-    let getPathDataObjEntries: 't => array<(
-      string,
-      OpenApiTypes.openApiOperationObject,
-    )> = %raw(`Object.entries`)
+    //TODO:remove this if statement
+    if pathString == "/logs/create" || pathString == "/posts/get/single/{postId}" {
+      template :=
+        Handlebars.compileTemplate(. {
+          pathItemObjects: pathData,
+          // httpVerb: Some(httpVerb),
+          pathString,
+        })
 
-    // Getting get/patch/delete entries for the path data
-    let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
-      entry => {
-        let (httpVerb, httpVerbData) = entry
+      Js.log(template.contents)
 
-        let {operationId, parameters, responses} = httpVerbData
-      },
-    )
-    Js.log("================================")
-    Js.log(pathDataStuff)
-    // Js.log(pathDataStuff)
-    // if Js.Option.isSome(pathData.get) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.get))
-    // }
-    // if Js.Option.isSome(pathData.put) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.put))
-    // }
-    // if Js.Option.isSome(pathData.post) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.post))
-    // }
-    // if Js.Option.isSome(pathData.delete) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.delete))
-    // }
-    // if Js.Option.isSome(pathData.options) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.options))
-    // }
-    // if Js.Option.isSome(pathData.head) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.head))
-    // }
-    // if Js.Option.isSome(pathData.patch) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.patch))
-    // }
-    // if Js.Option.isSome(pathData.trace) {
-    //   Js.log2(pathString, Js.Option.getExn(pathData.trace))
-    // }
+      let getPathDataObjEntries: 't => array<(
+        string,
+        OpenApiTypes.openApiOperationObject,
+      )> = %raw(`Object.entries`)
+
+      // Getting get/patch/delete entries for the path data
+      let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
+        entry => {
+          let (httpVerb, httpVerbData) = entry
+
+          let {operationId, parameters, responses, requestBody} = httpVerbData
+
+          // if Js.Option.isSome(operationId) {
+          //   Js.log2("operationId", operationId)
+          // }
+
+          // if Js.Option.isSome(requestBody) {
+          //   Js.log2("requestBody", requestBody)
+          // }
+
+          // module Api = {
+          //   module GetPost = {
+          //     let path = pathString
+          //     let verb = httpVerb
+          //     // Since can have multiple params, group in a sub-module
+          //     module Params = {
+          //       @spice
+          //       type postId = string
+          //       @spice
+          //       type includeTags = option<bool>
+          //     }
+
+          //     @spice
+          //     type tag = {tag: string, favourited: bool}
+
+          //     @spice
+          //     type response = {
+          //       postId: string,
+          //       title: string,
+          //       postUrl: string,
+          //       score: int,
+          //       timestamp: string,
+          //       mediaUrl: string,
+          //       mediaHasBeenDownloaded: bool,
+          //       couldNotDownload: bool,
+          //       postMediaImagesHaveBeenProcessed: bool,
+          //       postThumbnailsCreated: bool,
+          //       postMediaImagesProcessingError: option<string>,
+          //       downloadError: option<string>,
+          //       mediaDownloadTries: int,
+          //       downloadedMediaCount: int,
+          //       downloadedMedia: array<string>,
+          //       subredditName: string,
+          //       tags: option<array<tag>>,
+          //     }
+          //   }
+
+          //   module SaveLog = {
+          //     let path = pathString
+          //     let verb = httpVerb
+
+          //     @spice
+          //     type logLevel =
+          //       | @spice.as("fatal") FATAL
+          //       | @spice.as("error") ERROR
+          //       | @spice.as("warn") WARN
+          //       | @spice.as("info") INFO
+          //       | @spice.as("debug") DEBUG
+          //       | @spice.as("trace") TRACE
+
+          //     @spice
+          //     type body = {
+          //       level: logLevel,
+          //       service: string,
+          //       message: option<string>,
+          //       error: option<string>,
+          //       other: Js.Json.t,
+          //     }
+          //   }
+          // }
+
+          // if Js.Array2.length(parameters) > 0 {
+          //   let params = Js.Array2.map(
+          //     parameters,
+          //     param => {
+          //       Js.log(param)
+          //       param
+          //     },
+          //   )
+          // }
+          // Js.log2("responses", responses)
+        },
+      )
+      Js.log("================================")
+      Js.log(Js.Array2.length(pathDataStuff))
+    }
   })
 })
