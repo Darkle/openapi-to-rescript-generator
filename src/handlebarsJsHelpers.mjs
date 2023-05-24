@@ -3,45 +3,48 @@ import handlebars from 'handlebars'
 // eslint-disable-next-line max-lines-per-function
 function registerJSHandlebarHelpers() {
   handlebars.registerHelper('capitalize', aString => {
-    if (!aString) throw new Error("🚨 can't capitalize an undefined argument in capitalize handlebars helper")
-    if (!aString?.length)
+    if (!aString) {
+      throw new Error("🚨 can't capitalize an undefined argument in capitalize handlebars helper")
+    }
+    if (!aString?.length) {
       throw new Error("🚨 can't capitalize an empty argument in capitalize handlebars helper")
+    }
 
     return `${aString.charAt(0).toUpperCase()}${aString.slice(1)}`
   })
 
   handlebars.registerHelper('unCapitalize', aString => {
-    if (!aString)
+    if (!aString) {
       throw new Error("🚨 can't unCapitalize an undefined argument in unCapitalize handlebars helper")
-    if (!aString?.length)
+    }
+    if (!aString?.length) {
       throw new Error("🚨 can't unCapitalize an empty argument in unCapitalize handlebars helper")
+    }
 
     return `${aString.charAt(0).toLowerCase()}${aString.slice(1)}`
   })
 
   handlebars.registerHelper('toValidVarName', aString => {
-    if (!aString)
+    if (!aString) {
       throw new Error("🚨 can't toValidVarName an undefined argument in toValidVarName handlebars helper")
-    if (!aString?.length)
+    }
+    if (!aString?.length) {
       throw new Error("🚨 can't toValidVarName an empty argument in toValidVarName handlebars helper")
+    }
 
     return aString.replaceAll(/[^a-zA-Z]/gu, '')
   })
 
-  handlebars.registerHelper(
-    'paramContainsParamType',
-    (paramType, params) =>
-      !!params.find(param => {
-        if (!paramType) {
-          throw new Error('paramType not set in paramContainsParamType handlebars helper')
-        }
-        if (!params) {
-          throw new Error('params not set in paramContainsParamType handlebars helper')
-        }
+  handlebars.registerHelper('paramContainsParamType', (paramType, params) => {
+    if (!paramType) {
+      throw new Error('paramType not set in paramContainsParamType handlebars helper')
+    }
+    if (!params) {
+      throw new Error('params not set in paramContainsParamType handlebars helper')
+    }
 
-        return param.in === paramType
-      })
-  )
+    return !!params.find(param => param.in === paramType)
+  })
 
   handlebars.registerHelper('eq', (param1, param2) => {
     if (!param1) {

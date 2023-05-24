@@ -61,7 +61,7 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
 
   writeFileSync(. validOutputFileArg, compiledTemplate)
 
-  //Format
+  //Format file we just created
   let formattedOutputFile = ChildProcess.execSync(
     `./node_modules/.bin/rescript format -stdin .res < ${validOutputFileArg}`,
   )
