@@ -65,7 +65,7 @@ module Api = {
       {{/if}}
 
       {{#each requestBody.content}}
-        {{!-- operationId could start with uppercas and vars gotta start with lowercase in rescript --}}
+        {{!-- operationId could start with uppercase and vars gotta start with lowercase in rescript --}}
         let {{ unCapitalize (toValidVarName ../operationId)}}RequestBodyStruct = {{{structify schema}}}
       {{/each}}
 

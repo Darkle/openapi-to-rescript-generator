@@ -56,27 +56,8 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   if Js.Option.isSome(Js.Nullable.toOption(err)) {
     raise(DereferenceError(err))
   }
-  //FIXME:remove this temp stuff
-  let temppaths = Js.Dict.empty()
-  // Js.Dict.set(temppaths, "/favs/get/all", Js.Dict.unsafeGet(schema.paths, "/favs/get/all"))
-  // Js.Dict.set(temppaths, "/favs/get/subs", Js.Dict.unsafeGet(schema.paths, "/favs/get/subs"))
-  // Js.Dict.set(temppaths, "/favs/get/tags", Js.Dict.unsafeGet(schema.paths, "/favs/get/tags"))
-  // Js.Dict.set(
-  //   temppaths,
-  //   "/favs/add/sub/{sub}",
-  //   Js.Dict.unsafeGet(schema.paths, "/favs/add/sub/{sub}"),
-  // )
-  // Js.Dict.set(
-  //   temppaths,
-  //   "/favs/remove/sub/{sub}",
-  //   Js.Dict.unsafeGet(schema.paths, "/favs/remove/sub/{sub}"),
-  // )
-  // Js.Dict.set(temppaths, "/logs/create", Js.Dict.unsafeGet(schema.paths, "/logs/create"))
 
   let compiledTemplate: string = Handlebars.compileTemplate(. {"paths": schema.paths})
-
-  //FIXME: remove this
-  // Js.log(compiledTemplate)
 
   writeFileSync(. validOutputFileArg, compiledTemplate)
 
