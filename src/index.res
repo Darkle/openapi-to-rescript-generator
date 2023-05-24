@@ -1,5 +1,8 @@
 open NodeJs
 
+@module("fs")
+external writeFileSync: (. string, string) => unit = "writeFileSync"
+
 type swaggerValidationFunc = {validate: (. string, (. Js.nullable<Js.Exn.t>) => unit) => unit}
 
 @module("@apidevtools/swagger-parser")
@@ -15,7 +18,8 @@ external refParser: refParserDerefFunc = "default"
 @module("minimist")
 external minimist: array<string> => Js.Dict.t<string> = "default"
 
-exception InputFileError(string)
+exception ArgsError(string)
+exception InputFileNotFoundError(string)
 exception ValidationError(Js.Nullable.t<Js.Exn.t>)
 exception DereferenceError(Js.Nullable.t<Js.Exn.t>)
 
@@ -24,14 +28,21 @@ let process = Process.process
 let inputFile =
   Process.argv(process)->Js.Array2.slice(~start=2, ~end_=99)->minimist->Js.Dict.get("inputFile")
 
+let outputFile =
+  Process.argv(process)->Js.Array2.slice(~start=2, ~end_=99)->minimist->Js.Dict.get("outputFile")
+
 if Js.Option.isNone(inputFile) {
-  raise(InputFileError("🚨 Error: --inputFile cli arg not set!"))
+  raise(ArgsError("🚨 Error: --inputFile cli arg not set!"))
+}
+if Js.Option.isNone(outputFile) {
+  raise(ArgsError("🚨 Error: --outputFile cli arg not set!"))
 }
 
 let validInputFileArg = Js.Option.getExn(inputFile)
+let validOutputFileArg = Js.Option.getExn(outputFile)
 
 if !Fs.existsSync(validInputFileArg) {
-  raise(InputFileError("🚨 Error: input file does not exist!"))
+  raise(InputFileNotFoundError("🚨 Error: input file does not exist!"))
 }
 
 swaggerParser.validate(.validInputFileArg, (. err) => {
@@ -48,56 +59,22 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
     raise(DereferenceError(err))
   }
 
-  Js.log(Handlebars.compileTemplate(. {"paths": schema.paths}))
+  //FIXME:remove this temp stuff
+  let temppaths = Js.Dict.empty()
+  Js.Dict.set(temppaths, "/favs/get/all", Js.Dict.unsafeGet(schema.paths, "/favs/get/all"))
 
-  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
-  //   let (pathString, pathData) = pathKeyVal
+  let compiledTemplate: string = Handlebars.compileTemplate(. {"paths": temppaths})
 
-  //   //TODO:remove this if statement
-  //   if pathString == "/logs/create" || pathString == "/posts/get/single/{postId}" {
-  //     template :=
-  //       Handlebars.compileTemplate(. {
-  //         pathItemObjects: pathData,
-  //         // httpVerb: Some(httpVerb),
-  //         pathString,
-  //       })
+  //FIXME: remove this
+  Js.log(compiledTemplate)
 
-  //     Js.log(template.contents)
+  writeFileSync(. validOutputFileArg, compiledTemplate)
 
-  //     let getPathDataObjEntries: 't => array<(
-  //       string,
-  //       OpenApiTypes.openApiOperationObject,
-  //     )> = %raw(`Object.entries`)
+  //Format
+  let formattedOutputFile = ChildProcess.execSync(
+    `./node_modules/.bin/rescript format -stdin .res < ${validOutputFileArg}`,
+  )
 
-  //     // Getting get/patch/delete entries for the path data
-  //     let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
-  //       entry => {
-  //         let (httpVerb, httpVerbData) = entry
+  writeFileSync(. validOutputFileArg, Buffer.toString(formattedOutputFile))
 
-  //         let {operationId, parameters, responses, requestBody} = httpVerbData
-
-  //         // if Js.Option.isSome(operationId) {
-  //         //   Js.log2("operationId", operationId)
-  //         // }
-
-  //         // if Js.Option.isSome(requestBody) {
-  //         //   Js.log2("requestBody", requestBody)
-  //         // }
-
-  //         // if Js.Array2.length(parameters) > 0 {
-  //         //   let params = Js.Array2.map(
-  //         //     parameters,
-  //         //     param => {
-  //         //       Js.log(param)
-  //         //       param
-  //         //     },
-  //         //   )
-  //         // }
-  //         // Js.log2("responses", responses)
-  //       },
-  //     )
-  //     Js.log("================================")
-  //     Js.log(Js.Array2.length(pathDataStuff))
-  //   }
-  // })
 })

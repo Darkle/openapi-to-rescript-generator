@@ -13,14 +13,17 @@ dependencies:
   minimist:
     specifier: ^1.2.8
     version: 1.2.8
+  rescript-json-schema:
+    specifier: ^3.0.0
+    version: 3.0.0(rescript-struct@4.1.1)(rescript@10.1.4)
   rescript-nodejs:
     specifier: ^14.4.0
     version: 14.4.0
+  rescript-struct:
+    specifier: ^4.1.1
+    version: 4.1.1(rescript@10.1.4)
 
 devDependencies:
-  '@greenlabs/ppx-spice':
-    specifier: ^0.1.14
-    version: 0.1.14
   eslint:
     specifier: ^8.41.0
     version: 8.41.0
@@ -108,11 +111,6 @@ packages:
   /@eslint/js@8.41.0:
     resolution: {integrity: sha512-LxcyMGxwmTh2lY9FwHPGWOHmYFCZvbrFCBZL4FzSSsxsRPuhrYUg/49/0KDfW8tnIEaEHtfmn6+NPN+1DqaNmA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dev: true
-
-  /@greenlabs/ppx-spice@0.1.14:
-    resolution: {integrity: sha512-2zP5E3+yWCRwYkvOl1A/VoRC1ixHdIa4CujsGD3uwbAzfJkrGc7KH83Zbc+Yw858+RNw2GKrNC35f0CNVMusHw==}
-    requiresBuild: true
     dev: true
 
   /@humanwhocodes/config-array@0.11.8:
@@ -710,15 +708,32 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /rescript-json-schema@3.0.0(rescript-struct@4.1.1)(rescript@10.1.4):
+    resolution: {integrity: sha512-RwmzInUUUTFNzTepiZ4G61f1uEP2Ys2A1YMlE8Amj3cY5kGLlRpQV/KEXIxLPZDb/cFAgNcM4XuwVaWkDZLBkw==}
+    peerDependencies:
+      rescript: 10.1.x
+      rescript-struct: 4.1.x
+    dependencies:
+      rescript: 10.1.4
+      rescript-struct: 4.1.1(rescript@10.1.4)
+    dev: false
+
   /rescript-nodejs@14.4.0:
     resolution: {integrity: sha512-Bbh7wdNMJXYL3M7Tbmy87h0rPUduEKTCABNg8EZoeJsyneZUwRr7ij805zvM8ZpXf0FbPXVMeK4TSxnaFk5ocQ==}
+    dev: false
+
+  /rescript-struct@4.1.1(rescript@10.1.4):
+    resolution: {integrity: sha512-LmlFhnAMeQEGZhQJoEC8Mk/P0GgEWVawmQB2fbV9+ILzyTSESogKS2NtP6jd3/82joG5Nxon6Ml0SjpQqVHYhA==}
+    peerDependencies:
+      rescript: 10.1.x || ~11.0.0-alpha
+    dependencies:
+      rescript: 10.1.4
     dev: false
 
   /rescript@10.1.4:
     resolution: {integrity: sha512-FFKlS9AG/XrLepWsyw7B+A9DtQBPWEPDPDKghV831Y2KGbie+eeFBOS0xtRHp0xbt7S0N2Dm6hhX+kTZQ/3Ybg==}
     hasBin: true
     requiresBuild: true
-    dev: true
 
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}

@@ -2,44 +2,23 @@
 
 import * as Fs from "fs";
 import * as Js_exn from "rescript/lib/es6/js_exn.js";
-import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
-import * as Js_option from "rescript/lib/es6/js_option.js";
-import * as Js_string from "rescript/lib/es6/js_string.js";
+import * as JSONSchema from "rescript-json-schema/src/JSONSchema.bs.mjs";
 import Handlebars from "handlebars";
+import * as S$RescriptStruct from "rescript-struct/src/S.bs.mjs";
+import * as HandlebarsJsHelpersMjs from "./handlebarsJsHelpers.mjs";
 
-Handlebars.registerHelperCap("capitalize", (function (aString) {
-        if (aString !== undefined) {
-          if (aString === "") {
-            return Js_exn.raiseError("can't capitalize an empty argument");
-          } else {
-            return Js_string.charAt(0, aString).toUpperCase() + Js_string.substringToEnd(1, aString);
-          }
+function registerJSHandlebarHelpers(prim) {
+  HandlebarsJsHelpersMjs.registerJSHandlebarHelpers();
+}
+
+HandlebarsJsHelpersMjs.registerJSHandlebarHelpers();
+
+Handlebars.registerHelper("structify", (function (jsonSchema) {
+        if (jsonSchema !== undefined) {
+          return S$RescriptStruct.inline(JSONSchema.toStruct(jsonSchema));
         } else {
-          return Js_exn.raiseError("can't capitalize an undefined argument");
+          return Js_exn.raiseError("no arg supplied to structify handlebars helper");
         }
-      }));
-
-Handlebars.registerHelperEq("eq", (function (param1, param2) {
-        if (Js_option.isNone(param1)) {
-          Js_exn.raiseError("param1 is not set");
-        }
-        if (Js_option.isNone(param2)) {
-          Js_exn.raiseError("param2 is not set");
-        }
-        return Caml_obj.equal(param1, param2);
-      }));
-
-Handlebars.registerHelperVar("setVariable", (function (varName, varValue, options) {
-        if (Js_option.isNone(varName)) {
-          Js_exn.raiseError("varName is not set");
-        }
-        if (Js_option.isNone(varValue)) {
-          Js_exn.raiseError("varValue is not set");
-        }
-        var addVarToOptions = (function(varName, varValue, options) {
-      options.data.root[varName] = varValue
-    });
-        addVarToOptions(varName, varValue, options);
       }));
 
 var templateFile = Fs.readFileSync("./src/template.hbs", {
@@ -49,6 +28,7 @@ var templateFile = Fs.readFileSync("./src/template.hbs", {
 var compileTemplate = Handlebars.compile(templateFile);
 
 export {
+  registerJSHandlebarHelpers ,
   templateFile ,
   compileTemplate ,
 }
