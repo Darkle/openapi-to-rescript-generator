@@ -40,7 +40,7 @@ swaggerParser.validate(.validInputFileArg, (. err) => {
   }
 })->ignore
 
-let template = ref(Handlebars.compileTemplate(. {}))
+// let template = ref(Handlebars.compileTemplate(. {}))
 
 // This combines all referenced types into one file
 refParser.dereference(.validInputFileArg, (. err, schema) => {
@@ -48,115 +48,56 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
     raise(DereferenceError(err))
   }
 
-  Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
-    let (pathString, pathData) = pathKeyVal
+  Js.log(Handlebars.compileTemplate(. {"paths": schema.paths}))
 
-    //TODO:remove this if statement
-    if pathString == "/logs/create" || pathString == "/posts/get/single/{postId}" {
-      template :=
-        Handlebars.compileTemplate(. {
-          pathItemObjects: pathData,
-          // httpVerb: Some(httpVerb),
-          pathString,
-        })
+  // Js.Dict.entries(schema.paths)->Js.Array2.forEach(pathKeyVal => {
+  //   let (pathString, pathData) = pathKeyVal
 
-      Js.log(template.contents)
+  //   //TODO:remove this if statement
+  //   if pathString == "/logs/create" || pathString == "/posts/get/single/{postId}" {
+  //     template :=
+  //       Handlebars.compileTemplate(. {
+  //         pathItemObjects: pathData,
+  //         // httpVerb: Some(httpVerb),
+  //         pathString,
+  //       })
 
-      let getPathDataObjEntries: 't => array<(
-        string,
-        OpenApiTypes.openApiOperationObject,
-      )> = %raw(`Object.entries`)
+  //     Js.log(template.contents)
 
-      // Getting get/patch/delete entries for the path data
-      let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
-        entry => {
-          let (httpVerb, httpVerbData) = entry
+  //     let getPathDataObjEntries: 't => array<(
+  //       string,
+  //       OpenApiTypes.openApiOperationObject,
+  //     )> = %raw(`Object.entries`)
 
-          let {operationId, parameters, responses, requestBody} = httpVerbData
+  //     // Getting get/patch/delete entries for the path data
+  //     let pathDataStuff = getPathDataObjEntries(pathData)->Js.Array2.map(
+  //       entry => {
+  //         let (httpVerb, httpVerbData) = entry
 
-          // if Js.Option.isSome(operationId) {
-          //   Js.log2("operationId", operationId)
-          // }
+  //         let {operationId, parameters, responses, requestBody} = httpVerbData
 
-          // if Js.Option.isSome(requestBody) {
-          //   Js.log2("requestBody", requestBody)
-          // }
+  //         // if Js.Option.isSome(operationId) {
+  //         //   Js.log2("operationId", operationId)
+  //         // }
 
-          // module Api = {
-          //   module GetPost = {
-          //     let path = pathString
-          //     let verb = httpVerb
-          //     // Since can have multiple params, group in a sub-module
-          //     module Params = {
-          //       @spice
-          //       type postId = string
-          //       @spice
-          //       type includeTags = option<bool>
-          //     }
+  //         // if Js.Option.isSome(requestBody) {
+  //         //   Js.log2("requestBody", requestBody)
+  //         // }
 
-          //     @spice
-          //     type tag = {tag: string, favourited: bool}
-
-          //     @spice
-          //     type response = {
-          //       postId: string,
-          //       title: string,
-          //       postUrl: string,
-          //       score: int,
-          //       timestamp: string,
-          //       mediaUrl: string,
-          //       mediaHasBeenDownloaded: bool,
-          //       couldNotDownload: bool,
-          //       postMediaImagesHaveBeenProcessed: bool,
-          //       postThumbnailsCreated: bool,
-          //       postMediaImagesProcessingError: option<string>,
-          //       downloadError: option<string>,
-          //       mediaDownloadTries: int,
-          //       downloadedMediaCount: int,
-          //       downloadedMedia: array<string>,
-          //       subredditName: string,
-          //       tags: option<array<tag>>,
-          //     }
-          //   }
-
-          //   module SaveLog = {
-          //     let path = pathString
-          //     let verb = httpVerb
-
-          //     @spice
-          //     type logLevel =
-          //       | @spice.as("fatal") FATAL
-          //       | @spice.as("error") ERROR
-          //       | @spice.as("warn") WARN
-          //       | @spice.as("info") INFO
-          //       | @spice.as("debug") DEBUG
-          //       | @spice.as("trace") TRACE
-
-          //     @spice
-          //     type body = {
-          //       level: logLevel,
-          //       service: string,
-          //       message: option<string>,
-          //       error: option<string>,
-          //       other: Js.Json.t,
-          //     }
-          //   }
-          // }
-
-          // if Js.Array2.length(parameters) > 0 {
-          //   let params = Js.Array2.map(
-          //     parameters,
-          //     param => {
-          //       Js.log(param)
-          //       param
-          //     },
-          //   )
-          // }
-          // Js.log2("responses", responses)
-        },
-      )
-      Js.log("================================")
-      Js.log(Js.Array2.length(pathDataStuff))
-    }
-  })
+  //         // if Js.Array2.length(parameters) > 0 {
+  //         //   let params = Js.Array2.map(
+  //         //     parameters,
+  //         //     param => {
+  //         //       Js.log(param)
+  //         //       param
+  //         //     },
+  //         //   )
+  //         // }
+  //         // Js.log2("responses", responses)
+  //       },
+  //     )
+  //     Js.log("================================")
+  //     Js.log(Js.Array2.length(pathDataStuff))
+  //   }
+  // })
 })

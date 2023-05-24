@@ -6,7 +6,7 @@ dependencies:
     version: 10.1.0
   '@apidevtools/swagger-parser':
     specifier: ^10.1.0
-    version: 10.1.0(openapi-types@12.1.0)
+    version: 10.1.0(openapi-types@12.1.1)
   handlebars:
     specifier: ^4.7.7
     version: 4.7.7
@@ -58,7 +58,7 @@ packages:
     resolution: {integrity: sha512-QAkD5kK2b1WfjDS/UQn/qQkbwF31uqRjPTrsCs5ZG9BQGAkjwvqGFjjPqAuzac/IYzpPtRzjCP1WrTuAIjMrXg==}
     dev: false
 
-  /@apidevtools/swagger-parser@10.1.0(openapi-types@12.1.0):
+  /@apidevtools/swagger-parser@10.1.0(openapi-types@12.1.1):
     resolution: {integrity: sha512-9Kt7EuS/7WbMAUv2gSziqjvxwDbFSg3Xeyfuj5laUODX8o/k/CpsAKiQ8W7/R88eXFTMbJYg6+7uAmOWNKmwnw==}
     peerDependencies:
       openapi-types: '>=7'
@@ -70,7 +70,7 @@ packages:
       ajv: 8.12.0
       ajv-draft-04: 1.0.0(ajv@8.12.0)
       call-me-maybe: 1.0.2
-      openapi-types: 12.1.0
+      openapi-types: 12.1.1
     dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.41.0):
@@ -640,8 +640,8 @@ packages:
       wrappy: 1.0.2
     dev: true
 
-  /openapi-types@12.1.0:
-    resolution: {integrity: sha512-XpeCy01X6L5EpP+6Hc3jWN7rMZJ+/k1lwki/kTmWzbVhdPie3jd5O2ZtedEx8Yp58icJ0osVldLMrTB/zslQXA==}
+  /openapi-types@12.1.1:
+    resolution: {integrity: sha512-m/DJaEqOUDSU8KoI74E6A3TokccuDOJ81ewZ6kLFwUT1KEIE0GDWvErtnJJDU4sySx8JKF5kk2GzHUuK6f+VHA==}
     dev: false
 
   /optionator@0.9.1:

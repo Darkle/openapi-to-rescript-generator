@@ -1,6 +1,71 @@
 module Api = {
-{{#each pathItemObjects}}
-  {{pathString}}
+{{#each paths}}
+  {{setVariable 'apiPath' @key}}
+  {{#each this}}
+    module {{capitalize this.operationId}} = {
+      let apiPath = "{{@root.apiPath}}"
+      let httpVerb = "{{@key}}"
 
+      {{!-- https://swagger.io/specification/#parameter-object --}}
+      {{#if (paramContainsParamType 'path' parameters)}}
+        module PathParams = {
+          {{#each parameters}}
+            {{#if (eq in 'path')}}
+              type {{name}}: {{schema.type}}
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+
+      {{#if (paramContainsParamType 'query' parameters)}}
+        module QueryParams = {
+          {{#each parameters}}
+            {{#if (eq in 'query')}}
+              
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+
+      {{#if (paramContainsParamType 'header' parameters)}}
+        module HeaderParams = {
+          {{#each parameters}}
+            {{#if (eq in 'header')}}
+              
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+      
+      {{#if (paramContainsParamType 'cookie' parameters)}}
+        module CookieParams = {
+          {{#each parameters}}
+            {{#if (eq in 'cookie')}}
+              
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+
+      {{!-- {{#if requestBody}}
+        @spice
+        type body = {
+          {{#each requestBody}}
+            {{content.schema}}
+            {{key}}: {{type}}\n
+          {{/each}}
+        }
+      {{/if}}
+
+      {{#if responseDataItems}}
+        @spice
+        type response = {
+          {{#each responseDataItems}}
+            {{key}}: {{type}}\n
+          {{/each}}
+        }
+      {{/if}} --}}
+    }
+  {{/each}}
 {{/each}}
 }
