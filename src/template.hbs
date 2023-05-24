@@ -1,12 +1,11 @@
 module Api = {
 {{#each paths}}
   {{setVariable 'apiPath' @key}}
-  {{!-- each "this" will be a http verb. e.g. "get"  --}}
+
   {{#each this}}
     module {{capitalize this.operationId}} = {
       let apiPath = "{{@root.apiPath}}"
       let httpVerb = "{{@key}}"
-      {{!-- {{setVariable 'pathVerbOperationId' @key @root.apiPath this.operationId }} --}}
 
       {{!-- https://swagger.io/specification/#parameter-object --}}
       {{#if (paramContainsParamType 'path' parameters)}}
@@ -37,14 +36,9 @@ module Api = {
         }
       {{/if}}
 
-      {{!-- {{#if requestBody}}
-        type body = {
-          {{#each requestBody}}
-            {{content.schema}}
-            {{key}}: {{type}}\n
-          {{/each}}
-        }
-      {{/if}} --}}
+      {{#each requestBody.content}}
+        let {{../operationId}}RequestBody = {{{structify schema}}}
+      {{/each}}
 
       {{#each responses}}
         {{#each content}}

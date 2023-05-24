@@ -73,12 +73,9 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
                 Error: new Error()
               };
         }
-        var temppaths = {};
-        temppaths["/logs/search"] = schema.paths["/logs/search"];
         var compiledTemplate = Handlebars.compileTemplate({
-              paths: temppaths
+              paths: schema.paths
             });
-        console.log(compiledTemplate);
         Fs.writeFileSync(validOutputFileArg, compiledTemplate);
         var formattedOutputFile = Child_process.execSync("./node_modules/.bin/rescript format -stdin .res < " + validOutputFileArg + "");
         Fs.writeFileSync(validOutputFileArg, formattedOutputFile.toString());

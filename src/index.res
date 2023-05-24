@@ -71,12 +71,12 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   //   "/favs/remove/sub/{sub}",
   //   Js.Dict.unsafeGet(schema.paths, "/favs/remove/sub/{sub}"),
   // )
-  Js.Dict.set(temppaths, "/logs/search", Js.Dict.unsafeGet(schema.paths, "/logs/search"))
+  // Js.Dict.set(temppaths, "/logs/create", Js.Dict.unsafeGet(schema.paths, "/logs/create"))
 
-  let compiledTemplate: string = Handlebars.compileTemplate(. {"paths": temppaths})
+  let compiledTemplate: string = Handlebars.compileTemplate(. {"paths": schema.paths})
 
   //FIXME: remove this
-  Js.log(compiledTemplate)
+  // Js.log(compiledTemplate)
 
   writeFileSync(. validOutputFileArg, compiledTemplate)
 
