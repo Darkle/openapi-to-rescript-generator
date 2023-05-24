@@ -3,19 +3,19 @@ module Api = {
   {{setVariable 'apiPath' @key}}
 
   {{#each this}}
-    module {{capitalize this.operationId}} = {
+    module {{capitalize (toValidVarName this.operationId)}} = {
       let apiPath = "{{@root.apiPath}}"
       let httpVerb = "{{@key}}"
 
       {{!-- https://swagger.io/specification/#parameter-object --}}
       {{#if (paramContainsParamType 'path' parameters)}}
-        module PathParams = {
+        type pathParams = {
           {{#each parameters}}
             {{#if (eq in 'path')}}
               {{#if schema.enum}}
-                type {{name}} = {{#unless required}}option<{{/unless}}{{stringEnumToPolyVariant schema.enum}}{{#unless required}}>{{/unless}}
+                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
               {{else}}
-                type {{name}} = {{#unless required}}option<{{/unless}}{{schema.type}}{{#unless required}}>{{/unless}}
+                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
               {{/if}}
             {{/if}}
           {{/each}}
@@ -23,13 +23,41 @@ module Api = {
       {{/if}}
 
       {{#if (paramContainsParamType 'query' parameters)}}
-        module QueryParams = {
+        type queryParams = {
           {{#each parameters}}
             {{#if (eq in 'query')}}
               {{#if schema.enum}}
-                type {{name}} = {{#unless required}}option<{{/unless}}{{stringEnumToPolyVariant schema.enum}}{{#unless required}}>{{/unless}}
+                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
               {{else}}
-                type {{name}} = {{#unless required}}option<{{/unless}}{{schema.type}}{{#unless required}}>{{/unless}}
+                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+
+      {{#if (paramContainsParamType 'header' parameters)}}
+        type headerParams = {
+          {{#each parameters}}
+            {{#if (eq in 'header')}}
+              {{#if schema.enum}}
+                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+              {{else}}
+                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        }
+      {{/if}}
+
+      {{#if (paramContainsParamType 'cookie' parameters)}}
+        type cookieParams = {
+          {{#each parameters}}
+            {{#if (eq in 'cookie')}}
+              {{#if schema.enum}}
+                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+              {{else}}
+                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
               {{/if}}
             {{/if}}
           {{/each}}
@@ -37,14 +65,15 @@ module Api = {
       {{/if}}
 
       {{#each requestBody.content}}
-        let {{../operationId}}RequestBody = {{{structify schema}}}
+        {{!-- operationId could start with uppercas and vars gotta start with lowercase in rescript --}}
+        let {{ unCapitalize (toValidVarName ../operationId)}}RequestBodyStruct = {{{structify schema}}}
       {{/each}}
 
       {{#each responses}}
         {{#each content}}
           {{!-- Can have empty responses so check if schema truthy --}}
           {{#if schema}}
-            let {{../../operationId}}Response = {{{structify schema}}}
+            let {{ unCapitalize (toValidVarName ../../operationId)}}ResponseStruct = {{{structify schema}}}
           {{/if}}
         {{/each}}
       {{/each}}

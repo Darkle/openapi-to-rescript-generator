@@ -6,7 +6,26 @@ function registerJSHandlebarHelpers() {
     if (!aString) throw new Error("🚨 can't capitalize an undefined argument in capitalize handlebars helper")
     if (!aString?.length)
       throw new Error("🚨 can't capitalize an empty argument in capitalize handlebars helper")
+
     return `${aString.charAt(0).toUpperCase()}${aString.slice(1)}`
+  })
+
+  handlebars.registerHelper('unCapitalize', aString => {
+    if (!aString)
+      throw new Error("🚨 can't unCapitalize an undefined argument in unCapitalize handlebars helper")
+    if (!aString?.length)
+      throw new Error("🚨 can't unCapitalize an empty argument in unCapitalize handlebars helper")
+
+    return `${aString.charAt(0).toLowerCase()}${aString.slice(1)}`
+  })
+
+  handlebars.registerHelper('toValidVarName', aString => {
+    if (!aString)
+      throw new Error("🚨 can't toValidVarName an undefined argument in toValidVarName handlebars helper")
+    if (!aString?.length)
+      throw new Error("🚨 can't toValidVarName an empty argument in toValidVarName handlebars helper")
+
+    return aString.replaceAll(/[^a-zA-Z]/gu, '')
   })
 
   handlebars.registerHelper(
