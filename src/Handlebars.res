@@ -17,9 +17,7 @@ registerJSHandlebarHelpers()
 handlebars.registerHelper(."structify", (jsonSchema: option<JSONSchema.t>) => {
   switch jsonSchema {
   | None => Js.Exn.raiseError("no arg supplied to structify handlebars helper")
-  | Some(thing) => // let consoleDir = %raw("(thing) => console.dir(thing, {depth:Infinity})")
-    // consoleDir(JSONSchema.toStruct(thing))
-    JSONSchema.toStruct(thing)->S.inline
+  | Some(thing) => JSONSchema.toStruct(thing)->S.inline
   }
 })
 

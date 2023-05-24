@@ -53,6 +53,15 @@ function registerJSHandlebarHelpers() {
 
     options.data.root[varName] = varValue
   })
+
+  handlebars.registerHelper('stringEnumToPolyVariant', stringArr => {
+    if (!stringArr || !stringArr.length) {
+      throw new Error('stringArr not set or empty in stringEnumToPolyVariant handlebars helper')
+    }
+
+    // formatting gets rid of any excess pipes
+    return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
+  })
 }
 
 export { registerJSHandlebarHelpers }

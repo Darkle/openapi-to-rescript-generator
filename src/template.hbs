@@ -6,13 +6,18 @@ module Api = {
     module {{capitalize this.operationId}} = {
       let apiPath = "{{@root.apiPath}}"
       let httpVerb = "{{@key}}"
+      {{!-- {{setVariable 'pathVerbOperationId' @key @root.apiPath this.operationId }} --}}
 
       {{!-- https://swagger.io/specification/#parameter-object --}}
       {{#if (paramContainsParamType 'path' parameters)}}
         module PathParams = {
           {{#each parameters}}
             {{#if (eq in 'path')}}
-              type {{name}}: {{schema.type}}
+              {{#if schema.enum}}
+                type {{name}} = {{#unless required}}option<{{/unless}}{{stringEnumToPolyVariant schema.enum}}{{#unless required}}>{{/unless}}
+              {{else}}
+                type {{name}} = {{#unless required}}option<{{/unless}}{{schema.type}}{{#unless required}}>{{/unless}}
+              {{/if}}
             {{/if}}
           {{/each}}
         }
@@ -22,31 +27,15 @@ module Api = {
         module QueryParams = {
           {{#each parameters}}
             {{#if (eq in 'query')}}
-              
+              {{#if schema.enum}}
+                type {{name}} = {{#unless required}}option<{{/unless}}{{stringEnumToPolyVariant schema.enum}}{{#unless required}}>{{/unless}}
+              {{else}}
+                type {{name}} = {{#unless required}}option<{{/unless}}{{schema.type}}{{#unless required}}>{{/unless}}
+              {{/if}}
             {{/if}}
           {{/each}}
         }
       {{/if}}
-
-      {{!-- {{#if (paramContainsParamType 'header' parameters)}}
-        module HeaderParams = {
-          {{#each parameters}}
-            {{#if (eq in 'header')}}
-              
-            {{/if}}
-          {{/each}}
-        }
-      {{/if}}
-      
-      {{#if (paramContainsParamType 'cookie' parameters)}}
-        module CookieParams = {
-          {{#each parameters}}
-            {{#if (eq in 'cookie')}}
-              
-            {{/if}}
-          {{/each}}
-        }
-      {{/if}} --}}
 
       {{!-- {{#if requestBody}}
         type body = {
@@ -59,7 +48,10 @@ module Api = {
 
       {{#each responses}}
         {{#each content}}
-         let foo = {{{structify schema}}}
+          {{!-- Can have empty responses so check if schema truthy --}}
+          {{#if schema}}
+            let {{../../operationId}}Response = {{{structify schema}}}
+          {{/if}}
         {{/each}}
       {{/each}}
     }

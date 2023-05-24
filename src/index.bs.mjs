@@ -74,7 +74,7 @@ JsonSchemaRefParser.dereference(validInputFileArg, (function (err, schema) {
               };
         }
         var temppaths = {};
-        temppaths["/favs/get/all"] = schema.paths["/favs/get/all"];
+        temppaths["/logs/search"] = schema.paths["/logs/search"];
         var compiledTemplate = Handlebars.compileTemplate({
               paths: temppaths
             });

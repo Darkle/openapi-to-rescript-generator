@@ -51,17 +51,27 @@ swaggerParser.validate(.validInputFileArg, (. err) => {
   }
 })->ignore
 
-// let template = ref(Handlebars.compileTemplate(. {}))
-
 // This combines all referenced types into one file
 refParser.dereference(.validInputFileArg, (. err, schema) => {
   if Js.Option.isSome(Js.Nullable.toOption(err)) {
     raise(DereferenceError(err))
   }
-
   //FIXME:remove this temp stuff
   let temppaths = Js.Dict.empty()
-  Js.Dict.set(temppaths, "/favs/get/all", Js.Dict.unsafeGet(schema.paths, "/favs/get/all"))
+  // Js.Dict.set(temppaths, "/favs/get/all", Js.Dict.unsafeGet(schema.paths, "/favs/get/all"))
+  // Js.Dict.set(temppaths, "/favs/get/subs", Js.Dict.unsafeGet(schema.paths, "/favs/get/subs"))
+  // Js.Dict.set(temppaths, "/favs/get/tags", Js.Dict.unsafeGet(schema.paths, "/favs/get/tags"))
+  // Js.Dict.set(
+  //   temppaths,
+  //   "/favs/add/sub/{sub}",
+  //   Js.Dict.unsafeGet(schema.paths, "/favs/add/sub/{sub}"),
+  // )
+  // Js.Dict.set(
+  //   temppaths,
+  //   "/favs/remove/sub/{sub}",
+  //   Js.Dict.unsafeGet(schema.paths, "/favs/remove/sub/{sub}"),
+  // )
+  Js.Dict.set(temppaths, "/logs/search", Js.Dict.unsafeGet(schema.paths, "/logs/search"))
 
   let compiledTemplate: string = Handlebars.compileTemplate(. {"paths": temppaths})
 
@@ -76,5 +86,4 @@ refParser.dereference(.validInputFileArg, (. err, schema) => {
   )
 
   writeFileSync(. validOutputFileArg, Buffer.toString(formattedOutputFile))
-
 })
