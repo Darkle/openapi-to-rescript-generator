@@ -1,5 +1,7 @@
-@module("fs")
-external readFileSync: (. string, {"encoding": string}) => string = "readFileSync"
+open NodeJs
+
+// Can't put in utils. Needs to be in each file that uses it.
+@val external importMetaUrl: NodeJs.Url.t = "import.meta.url"
 
 type handleBarsMethods = {
   compile: (. string) => (. {"paths": Js.Dict.t<OpenApiTypes.pathItemObject>}) => string,
@@ -21,6 +23,10 @@ handlebars.registerHelper(."structify", (jsonSchema: option<JSONSchema.t>) => {
   }
 })
 
-let templateFile = readFileSync(. "./src/template.hbs", {"encoding": "utf8"})
+let esmDirname = Url.fileURLToPath(Url.fromBaseUrl(~input=".", ~base=importMetaUrl))
+
+let templageFilePath = Path.join([esmDirname, "template.hbs"])
+
+let templateFile = Utils.readFileSync(. templageFilePath, {"encoding": "utf8"})
 
 let compileTemplate = handlebars.compile(. templateFile)
