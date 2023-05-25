@@ -95,25 +95,6 @@ function registerJSHandlebarHelpers() {
     return !!params.find(param => param.in === paramType)
   })
 
-  handlebars.registerHelper('eq', (param1, param2) => {
-    if (!param1) {
-      throw new Error('1st arg not set in eq handlebars helper')
-    }
-    if (!param2) {
-      throw new Error('2nd arg not set in eq handlebars helper')
-    }
-
-    return param1 == param2
-  })
-
-  handlebars.registerHelper('jsonstringify', param1 => {
-    if (!param1) {
-      throw new Error('arg not set in jsonstringify handlebars helper')
-    }
-
-    return JSON.stringify(param1)
-  })
-
   handlebars.registerHelper('setVariable', (varName, varValue, options) => {
     if (!varName) {
       throw new Error('1st arg not set in setVariable handlebars helper')
