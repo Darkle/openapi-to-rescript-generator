@@ -8,6 +8,7 @@
   "type": "module",
   "scripts": {
     "dev-start": "rescript build -w",
+    "start": "npm run build && node src/index.bs.mjs",
     "build": "rescript build"
   },
   "dependencies": {
