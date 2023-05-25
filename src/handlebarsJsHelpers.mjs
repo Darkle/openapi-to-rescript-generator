@@ -39,10 +39,10 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('toValidVarName', aString => {
     if (!aString) {
-      throw new Error("🚨 can't toValidVarName an undefined argument in toValidVarName handlebars helper")
+      throw new Error('🚨 no valid argument suppled to toValidVarName handlebars helper')
     }
     if (!aString?.length) {
-      throw new Error("🚨 can't toValidVarName an empty argument in toValidVarName handlebars helper")
+      throw new Error('🚨 empty string supplied to toValidVarName handlebars helper')
     }
 
     return fixIfReservedKeyword(aString.replaceAll(/[^a-zA-Z]/gu, ''))
@@ -55,14 +55,10 @@ function registerJSHandlebarHelpers() {
   // eslint-disable-next-line complexity
   handlebars.registerHelper('toValidRecordFieldName', aString => {
     if (!aString) {
-      throw new Error(
-        "🚨 can't toValidRecordFieldName an undefined argument in toValidRecordFieldName handlebars helper"
-      )
+      throw new Error('🚨 no valid argument suppled to toValidRecordFieldName handlebars helper')
     }
     if (!aString?.length) {
-      throw new Error(
-        "🚨 can't toValidRecordFieldName an empty argument in toValidRecordFieldName handlebars helper"
-      )
+      throw new Error('🚨 empty string supplied to toValidRecordFieldName handlebars helper')
     }
 
     return isCapetilized(aString) || isReservedKeyword(aString) || hasNonAsciiChars(aString)
@@ -72,10 +68,10 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('paramContainsParamType', (paramType, params) => {
     if (!paramType) {
-      throw new Error('paramType not set in paramContainsParamType handlebars helper')
+      throw new Error('1st arg not set in paramContainsParamType handlebars helper')
     }
     if (!params) {
-      throw new Error('params not set in paramContainsParamType handlebars helper')
+      throw new Error('2nd arg not set in paramContainsParamType handlebars helper')
     }
 
     return !!params.find(param => param.in === paramType)
@@ -83,10 +79,10 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('eq', (param1, param2) => {
     if (!param1) {
-      throw new Error('param1 not set in eq handlebars helper')
+      throw new Error('1st arg not set in eq handlebars helper')
     }
     if (!param2) {
-      throw new Error('param2 not set in eq handlebars helper')
+      throw new Error('2nd arg not set in eq handlebars helper')
     }
 
     return param1 == param2
@@ -94,7 +90,7 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('jsonstringify', param1 => {
     if (!param1) {
-      throw new Error('param1 not set in jsonstringify handlebars helper')
+      throw new Error('arg not set in jsonstringify handlebars helper')
     }
 
     return JSON.stringify(param1)
@@ -102,10 +98,10 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('setVariable', (varName, varValue, options) => {
     if (!varName) {
-      throw new Error('varName not set in setVariable handlebars helper')
+      throw new Error('1st arg not set in setVariable handlebars helper')
     }
     if (!varValue) {
-      throw new Error('varValue not set in setVariable handlebars helper')
+      throw new Error('2nd arg not set in setVariable handlebars helper')
     }
 
     options.data.root[varName] = varValue
@@ -113,7 +109,7 @@ function registerJSHandlebarHelpers() {
 
   handlebars.registerHelper('stringEnumToPolyVariant', stringArr => {
     if (!stringArr || !stringArr.length) {
-      throw new Error('stringArr not set or empty in stringEnumToPolyVariant handlebars helper')
+      throw new Error('arg not set or empty in stringEnumToPolyVariant handlebars helper')
     }
 
     // formatting gets rid of any excess pipes
