@@ -53,7 +53,7 @@ let saveLogRequestBodyStruct = S.object(o =>
 
   - e.g. `type queryParams = {state: [#open | #merged | #declined]}` becomes `type queryParams = {state: string}` as `open` is a Rescript reserved keyword.
 
-- We only do one level of parameters at the moment. e.g.
+- We don't do nested parameter schemas at the moment. We only do the first level of schema. e.g.
 
 ```yaml
 parameters:
