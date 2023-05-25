@@ -1,0 +1,9 @@
+.vscode
+lib
+.eslintrc.cjs
+.prettierignore
+bsconfig.json
+output.res
+output2.res
+src/*.res
+make-file-exec.sh

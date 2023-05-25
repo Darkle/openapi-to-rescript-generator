@@ -1,15 +1,27 @@
 {
   "name": "openapi-to-rescript-generator",
   "version": "0.1.0",
+  "author": "CoopCoding <coop.coding@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=15"
   },
+  "main": "src/index.bs.mjs",
+  "bin": {
+    "openapi-to-rescript": "./src/index.bs.mjs"
+  },
   "type": "module",
+  "keywords": [
+    "rescript",
+    "openapi"
+  ],
   "scripts": {
     "dev-start": "rescript build -w",
-    "start": "npm run build && node src/index.bs.mjs",
-    "build": "rescript build"
+    "start": "node ./src/index.bs.mjs",
+    "build": "rescript build",
+    "publish": "npm run build && npm run make-file-executable && npm publish",
+    "make-file-executable": "./make-file-exec.sh",
+    "publish-dry-run": "npm run build && npm run make-file-executable && npm pack --dry-run"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
@@ -23,6 +35,5 @@
   },
   "devDependencies": {
     "eslint": "^8.41.0"
-  },
-  "author": "CoopCoding"
+  }
 }
