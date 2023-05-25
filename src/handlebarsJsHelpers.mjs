@@ -20,6 +20,8 @@ const upperCaseFirstLetter = str => `${str.charAt(0).toUpperCase()}${str.slice(1
 
 const lowerCaseFirstLetter = str => `${str.charAt(0).toLowerCase()}${str.slice(1)}`
 
+const arrayContainsReservedWord = strArr => strArr.find(isReservedKeyword)
+
 // eslint-disable-next-line max-lines-per-function
 function registerJSHandlebarHelpers() {
   handlebars.registerHelper('createModuleName', aString => {
@@ -129,10 +131,11 @@ function registerJSHandlebarHelpers() {
       throw new Error('arg not set or empty in stringEnumToPolyVariant handlebars helper')
     }
 
-    /*****
-      NOTE: I don't know of any way to deal with reserved keywords here. e.g changing `#open` to
-      `#open_` will change the value to "open_" in js. 🤔
-    *****/
+    // Dunno what else to do here. I don't know of a way to alias a poly variant name if it uses a keyword
+    if (arrayContainsReservedWord(stringArr)) {
+      return 'string'
+    }
+
     // formatting gets rid of any excess pipes
     return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
   })
