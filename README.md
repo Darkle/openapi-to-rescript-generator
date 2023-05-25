@@ -12,7 +12,7 @@ Note: this is just a first pass at this. Some stuff isn't supported yet. Expect 
 
 #### Usage:
 
-1. Run `npm install openapi-to-rescript-generator -g`
+1. Install via `npm install openapi-to-rescript-generator -g`
 2. Run `openapi-to-rescript --inputFile <inputFilePath> --outputFile <outputFilePath>`. Example: `openapi-to-rescript --inputFile ./foo/openapi.json --outputFile ./bar/output.res`
 3. You will then need to install [rescript struct](https://github.com/DZakh/rescript-struct#install) in your app for working with the file you created.
 
