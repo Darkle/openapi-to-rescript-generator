@@ -90,3 +90,8 @@ type queryParams = {
   - https://github.com/Nicolas1st/net-cli-rock-paper-scissors/blob/main/apps/client/src/Api.res
 
 #### Dev:
+
+- to publish a new version:
+  1. update the version in `package.json`
+  2. run `npm publish-dry-run` and check there are no wayward files listed.
+  3. run `npm build-publish`

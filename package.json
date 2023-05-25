@@ -1,6 +1,6 @@
 {
   "name": "openapi-to-rescript-generator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "CoopCoding <coop.coding@gmail.com>",
   "license": "MIT",
   "engines": {
@@ -18,7 +18,8 @@
   "scripts": {
     "dev-start": "rescript build -w",
     "start": "node ./src/index.bs.mjs",
-    "build": "rescript build",
+    "//": "need to delete first, otherwise rescript ignores if not changed and make-file-executable ads a second shebang",
+    "build": "trash src/index.bs.mjs && rescript build",
     "build-publish": "npm run build && npm run make-file-executable && npm publish",
     "make-file-executable": "./make-file-exec.sh",
     "publish-dry-run": "npm run build && npm run make-file-executable && npm pack --dry-run"
@@ -34,6 +35,7 @@
     "rescript-struct": "^4.1.1"
   },
   "devDependencies": {
-    "eslint": "^8.41.0"
+    "eslint": "^8.41.0",
+    "trash-cli": "^5.0.0"
   }
 }
