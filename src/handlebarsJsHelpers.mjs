@@ -48,8 +48,9 @@ function registerJSHandlebarHelpers() {
   })
 
   /*****
-    Can't change the names of the api type keys as they need to match up, so instead use this trick
-    from the docs: https://rescript-lang.org/syntax-lookup#as-decorator
+    Can't change the names of the api type keys as they need to match up, so instead use either @as() or \""
+    https://rescript-lang.org/docs/manual/latest/use-illegal-identifier-names
+    https://rescript-lang.org/syntax-lookup#as-decorator
   *****/
   // eslint-disable-next-line complexity, max-lines-per-function
   handlebars.registerHelper('toValidRecordFieldName', aString => {
