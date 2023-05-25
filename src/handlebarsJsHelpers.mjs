@@ -129,8 +129,12 @@ function registerJSHandlebarHelpers() {
       throw new Error('arg not set or empty in stringEnumToPolyVariant handlebars helper')
     }
 
+    /*****
+      NOTE: I don't know of any way to deal with reserved keywords here. e.g changing `#open` to
+      `#open_` will change the value to "open_" in js. 🤔
+    *****/
     // formatting gets rid of any excess pipes
-    return stringArr.reduce((acc, currentItem) => `${acc} | #${fixIfReservedKeyword(currentItem)}`, '[') + ']'
+    return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
   })
 }
 
