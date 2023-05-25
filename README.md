@@ -1,6 +1,6 @@
 # Openapi to Rescript generator
 
-Note: this is just a first pass at this. Some stuff isn't supported yet, so expect some bugs.
+Note: this is just a first pass at this. Some stuff isn't supported yet. Expect some bugs.
 
 #### Introduction:
 
