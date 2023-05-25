@@ -1,12 +1,12 @@
 # Openapi to Rescript generator
 
+Note: this is just a first pass at this. Some stuff isn't supported yet, so expect some bugs.
+
 #### Introduction:
 
 - Generate rescript code from an [openapi spec](https://spec.openapis.org/oas/v3.1.0) document to help you validate & parse responses from your api. It also generates types for parameters and validation for request bodies.
 
 - It supports openapi specs in json and yaml form.
-
-- Note: this is just a first pass at this. Some stuff isn't supported yet, so expect some bugs.
 
 - Most of the heavy lifting is done by the [Rescript Struct](https://github.com/DZakh/rescript-struct) and [Rescript Json Schema](https://github.com/DZakh/rescript-json-schema) libs.
 
@@ -50,7 +50,7 @@ let saveLogRequestBodyStruct = S.object(o =>
 )->S.Object.strict
 ```
 
-- It will error if a enum-to-poly variant conversion has a keyword in it. e.g `type queryParams = {state?: [#open | #merged | #declined]}`, where `#open` is a rescript reserved keyword. I don't know a way around this. 😞
+- It will error if a enum-to-poly variant conversion has a keyword in it. e.g `type queryParams = {state: [#open | #merged | #declined]}`, where `#open` is a rescript reserved keyword. I don't know a way around this. 😞
 
 - We only do one level of parameters. e.g.
 
