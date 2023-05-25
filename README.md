@@ -84,7 +84,7 @@ type queryParams = {
 }
 ```
 
-#### Things to add in the future
+#### Things to possibly add in the future
 
 - Maybe going forward we could implement a full RPC library similar to [trpc](https://trpc.io/):
   - https://github.com/Nicolas1st/net-cli-rock-paper-scissors/blob/main/apps/client/src/Api.res
