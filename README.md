@@ -25,7 +25,7 @@ Note: this is just a first pass at this. Some stuff isn't supported yet, so expe
 - You may need to manually annotate unions in the output. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
   - Here is an example of annotating a union inline:
 
-```
+```rescript
 let saveLogRequestBodyStruct = S.object(o =>
   {
     "level": o->S.field(
