@@ -1,12 +1,14 @@
-# openapi-to-rescript-generator
+# Openapi to Rescript generator
 
-- Generate rescript code from an [openapi spec](https://spec.openapis.org/oas/v3.1.0) document to help you validate & parse responses from your api. It also generates types for parameters and validation for request bodies. 
+#### Introduction:
+
+- Generate rescript code from an [openapi spec](https://spec.openapis.org/oas/v3.1.0) document to help you validate & parse responses from your api. It also generates types for parameters and validation for request bodies.
 
 - It supports openapi specs in json and yaml form.
 
 - Note: this is just a first pass at this. Some stuff isn't supported yet, so expect some bugs.
 
-- Most of the heavy lifting is done by the [Rescript Struct](https://github.com/DZakh/rescript-struct) and  [Rescript Json Schema](https://github.com/DZakh/rescript-json-schema) libs.
+- Most of the heavy lifting is done by the [Rescript Struct](https://github.com/DZakh/rescript-struct) and [Rescript Json Schema](https://github.com/DZakh/rescript-json-schema) libs.
 
 #### Usage:
 
@@ -82,6 +84,7 @@ type queryParams = {
 ```
 
 #### Things to add in the future
+
 - Maybe going forward we could implement a full RPC library similar to [trpc](https://trpc.io/):
   - https://github.com/Nicolas1st/net-cli-rock-paper-scissors/blob/main/apps/client/src/Api.res
 
