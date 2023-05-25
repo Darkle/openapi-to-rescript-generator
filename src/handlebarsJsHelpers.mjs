@@ -48,7 +48,7 @@ function registerJSHandlebarHelpers() {
   })
 
   /*****
-    Can't change the names of the api type keys as they need to match up, so instead use either @as() and \""
+    Can't change the names of the api type keys as they need to match up, so instead use @as() and \""
     https://rescript-lang.org/docs/manual/latest/use-illegal-identifier-names
     https://rescript-lang.org/syntax-lookup#as-decorator
   *****/
