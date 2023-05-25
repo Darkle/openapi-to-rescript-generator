@@ -12,10 +12,10 @@ Note: this is just a first pass at this. Some stuff isn't supported yet, so expe
 
 #### Usage:
 
-- Git clone this repo
-- Run `npm run start -- --inputFile <inputFilePath> --outputFile <outputFilePath>`. Note: the `--` after `start` is required.
+1. Git clone this repo
+2. Run `npm run start -- --inputFile <inputFilePath> --outputFile <outputFilePath>`. Note: the `--` after `start` is required.
   - example: `npm run start --inputFile /foo/bar/openapi.json --outputFile ./output.res`
-- You will then need to install [rescript struct](https://github.com/DZakh/rescript-struct#install) in your app.
+3. You will then need to install [rescript struct](https://github.com/DZakh/rescript-struct#install) in your app.
 
 #### Limitations
 
