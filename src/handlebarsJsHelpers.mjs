@@ -72,7 +72,6 @@ function registerJSHandlebarHelpers() {
 
     if (hasNonAtoZChars(aString)) {
       isLegitName = false
-      // https://rescript-lang.org/docs/manual/latest/use-illegal-identifier-names
       aString = `\\"${aString}"`
     }
 
