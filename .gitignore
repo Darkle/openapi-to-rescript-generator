@@ -6,5 +6,6 @@ dist
 output.res
 output2.res
 lib
-src/*.b.mjs
+src/*.bs.mjs
 src/*.bundle.mjs
+src/*.bundle.cjs

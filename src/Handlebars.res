@@ -1,7 +1,7 @@
 open NodeJs
 
 // Can't put in utils. Needs to be in each file that uses it.
-@val external importMetaUrl: NodeJs.Url.t = "import.meta.url"
+@val external importMetaUrl: Js.Nullable.t<string> = "import.meta.url"
 
 type handleBarsMethods = {
   compile: (. string) => (. {"paths": Js.Dict.t<OpenApiTypes.pathItemObject>}) => string,
@@ -23,9 +23,9 @@ handlebars.registerHelper(."structify", (jsonSchema: option<JSONSchema.t>) => {
   }
 })
 
-let esmDirname = Url.fileURLToPath(Url.fromBaseUrl(~input=".", ~base=importMetaUrl))
+let dirname = Utils.getDirName(importMetaUrl, Global.dirname)
 
-let templageFilePath = Path.join([esmDirname, "template.hbs"])
+let templageFilePath = Path.join([dirname, "template.hbs"])
 
 let templateFile = Utils.readFileSync(. templageFilePath, {"encoding": "utf8"})
 
