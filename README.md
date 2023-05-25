@@ -49,7 +49,9 @@ let saveLogRequestBodyStruct = S.object(o =>
 )->S.Object.strict
 ```
 
-- If an enum contains a Rescript reserved keyword, we don't convert it to a polymorphic variant and instead just set it as a string; I don't know of a way to alias a poly variant's name.
+- If an enum contains a Rescript reserved keyword, we can't convert it to a polymorphic variant, so instead we just set it as a string. I don't know of a way to alias a poly variant's name.
+
+  - e.g. `type queryParams = {state: [#open | #merged | #declined]}` becomes `type queryParams = {state: string}` as `open` is a Rescript reserved keyword.
 
 - We only do one level of parameters at the moment. e.g.
 
