@@ -3,7 +3,7 @@ module Api = {
   {{setVariable 'apiPath' @key}}
 
   {{#each this}}
-    module {{capitalize (toValidVarName this.operationId)}} = {
+    module {{capitalize (toAtoZonly this.operationId)}} = {
       let apiPath = "{{@root.apiPath}}"
       let httpVerb = "{{@key}}"
 
@@ -68,14 +68,14 @@ module Api = {
 
       {{#each requestBody.content}}
         {{!-- operationId could start with uppercase and vars gotta start with lowercase in rescript --}}
-        let {{ unCapitalize (toValidVarName ../operationId)}}RequestBodyStruct = {{{structify schema}}}
+        let {{ unCapitalize (toAtoZonly ../operationId)}}RequestBodyStruct = {{{structify schema}}}
       {{/each}}
 
       {{#each responses}}
         {{#each content}}
           {{!-- Can have empty responses so check if schema truthy --}}
           {{#if schema}}
-            let {{ unCapitalize (toValidVarName ../../operationId)}}ResponseStruct = {{{structify schema}}}
+            let {{ unCapitalize (toAtoZonly ../../operationId)}}ResponseStruct = {{{structify schema}}}
           {{/if}}
         {{/each}}
       {{/each}}

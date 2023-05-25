@@ -2,7 +2,7 @@ import handlebars from 'handlebars'
 
 // https://rescript-lang.org/docs/manual/latest/reserved-keywords
 const isReservedKeyword = word =>
-  /\b(and|as|assert|constraint|else|exception|external|false|for|if|in|include|lazy|let|module|mutable|of|open|rec|switch|true|try|type|when|while|with)\b/gu.test(
+  /^(and|as|assert|constraint|else|exception|external|false|for|if|in|include|lazy|let|module|mutable|of|open|rec|switch|true|try|type|when|while|with)$/gu.test(
     word
   )
 
@@ -23,7 +23,8 @@ function registerJSHandlebarHelpers() {
       throw new Error("🚨 can't capitalize an empty argument in capitalize handlebars helper")
     }
 
-    return fixIfReservedKeyword(`${aString.charAt(0).toUpperCase()}${aString.slice(1)}`)
+    // Don't need fixIfReservedKeyword as we are uppercasing first letter
+    return `${aString.charAt(0).toUpperCase()}${aString.slice(1)}`
   })
 
   handlebars.registerHelper('unCapitalize', aString => {
@@ -37,15 +38,16 @@ function registerJSHandlebarHelpers() {
     return fixIfReservedKeyword(`${aString.charAt(0).toLowerCase()}${aString.slice(1)}`)
   })
 
-  handlebars.registerHelper('toValidVarName', aString => {
+  handlebars.registerHelper('toAtoZonly', aString => {
     if (!aString) {
-      throw new Error('🚨 no valid argument suppled to toValidVarName handlebars helper')
+      throw new Error('🚨 no valid argument suppled to toAtoZonly handlebars helper')
     }
     if (!aString?.length) {
-      throw new Error('🚨 empty string supplied to toValidVarName handlebars helper')
+      throw new Error('🚨 empty string supplied to toAtoZonly handlebars helper')
     }
 
-    return fixIfReservedKeyword(aString.replaceAll(/[^a-zA-Z]/gu, ''))
+    // Don't need fixIfReservedKeyword here as it is being used in between other characters in var creation
+    return aString.replaceAll(/[^a-zA-Z]/gu, '')
   })
 
   /*****
