@@ -7,61 +7,63 @@ module Api = {
       let apiPath = "{{@root.apiPath}}"
       let httpVerb = "{{@key}}"
 
-      {{!-- https://swagger.io/specification/#parameter-object --}}
-      {{#if (paramContainsParamType 'path' parameters)}}
-        type pathParams = {
-          {{#each parameters}}
-            {{#if (eq in 'path')}}
-              {{#if schema.enum}}
-                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
-              {{else}}
-                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
+      {{#if parameters}}
+        {{!-- https://swagger.io/specification/#parameter-object --}}
+        {{#if (paramContainsParamType 'path' parameters)}}
+          type pathParams = {
+            {{#each parameters}}
+              {{#if (eq in 'path')}}
+                {{#if schema.enum}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+                {{else}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                {{/if}}
               {{/if}}
-            {{/if}}
-          {{/each}}
-        }
-      {{/if}}
+            {{/each}}
+          }
+        {{/if}}
 
-      {{#if (paramContainsParamType 'query' parameters)}}
-        type queryParams = {
-          {{#each parameters}}
-            {{#if (eq in 'query')}}
-              {{#if schema.enum}}
-                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
-              {{else}}
-                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
-              {{/if}}
-            {{/if}}
-          {{/each}}
-        }
-      {{/if}}
+          {{#if (paramContainsParamType 'query' parameters)}}
+            type queryParams = {
+              {{#each parameters}}
+                {{#if (eq in 'query')}}
+                  {{#if schema.enum}}
+                    {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+                  {{else}}
+                    {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+            }
+          {{/if}}
 
-      {{#if (paramContainsParamType 'header' parameters)}}
-        type headerParams = {
-          {{#each parameters}}
-            {{#if (eq in 'header')}}
-              {{#if schema.enum}}
-                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
-              {{else}}
-                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
+        {{#if (paramContainsParamType 'header' parameters)}}
+          type headerParams = {
+            {{#each parameters}}
+              {{#if (eq in 'header')}}
+                {{#if schema.enum}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+                {{else}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                {{/if}}
               {{/if}}
-            {{/if}}
-          {{/each}}
-        }
-      {{/if}}
+            {{/each}}
+          }
+        {{/if}}
 
-      {{#if (paramContainsParamType 'cookie' parameters)}}
-        type cookieParams = {
-          {{#each parameters}}
-            {{#if (eq in 'cookie')}}
-              {{#if schema.enum}}
-                {{name}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
-              {{else}}
-                {{name}}{{#unless required}}?{{/unless}}: {{schema.type}},
+        {{#if (paramContainsParamType 'cookie' parameters)}}
+          type cookieParams = {
+            {{#each parameters}}
+              {{#if (eq in 'cookie')}}
+                {{#if schema.enum}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
+                {{else}}
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                {{/if}}
               {{/if}}
-            {{/if}}
-          {{/each}}
-        }
+            {{/each}}
+          }
+        {{/if}}
       {{/if}}
 
       {{#each requestBody.content}}

@@ -1,5 +1,18 @@
 import handlebars from 'handlebars'
 
+// https://rescript-lang.org/docs/manual/latest/reserved-keywords
+const isReservedKeyword = word =>
+  /\b(and|as|assert|constraint|else|exception|external|false|for|if|in|include|lazy|let|module|mutable|of|open|rec|switch|true|try|type|when|while|with)\b/gu.test(
+    word
+  )
+
+// https://stackoverflow.com/a/69874941/2785644
+const isCapetilized = str => /\p{Lu}/u.test(str)
+
+const hasNonAsciiChars = str => /[^a-zA-Z]/gu.test(str)
+
+const fixIfReservedKeyword = str => (isReservedKeyword(str) ? `${str}_` : str)
+
 // eslint-disable-next-line max-lines-per-function
 function registerJSHandlebarHelpers() {
   handlebars.registerHelper('capitalize', aString => {
@@ -10,7 +23,7 @@ function registerJSHandlebarHelpers() {
       throw new Error("🚨 can't capitalize an empty argument in capitalize handlebars helper")
     }
 
-    return `${aString.charAt(0).toUpperCase()}${aString.slice(1)}`
+    return fixIfReservedKeyword(`${aString.charAt(0).toUpperCase()}${aString.slice(1)}`)
   })
 
   handlebars.registerHelper('unCapitalize', aString => {
@@ -21,7 +34,7 @@ function registerJSHandlebarHelpers() {
       throw new Error("🚨 can't unCapitalize an empty argument in unCapitalize handlebars helper")
     }
 
-    return `${aString.charAt(0).toLowerCase()}${aString.slice(1)}`
+    return fixIfReservedKeyword(`${aString.charAt(0).toLowerCase()}${aString.slice(1)}`)
   })
 
   handlebars.registerHelper('toValidVarName', aString => {
@@ -32,7 +45,29 @@ function registerJSHandlebarHelpers() {
       throw new Error("🚨 can't toValidVarName an empty argument in toValidVarName handlebars helper")
     }
 
-    return aString.replaceAll(/[^a-zA-Z]/gu, '')
+    return fixIfReservedKeyword(aString.replaceAll(/[^a-zA-Z]/gu, ''))
+  })
+
+  /*****
+    Can't change the names of the api type keys as they need to match up, so instead use this trick
+    from the docs: https://rescript-lang.org/docs/manual/latest/use-illegal-identifier-names
+  *****/
+  // eslint-disable-next-line complexity
+  handlebars.registerHelper('toValidRecordFieldName', aString => {
+    if (!aString) {
+      throw new Error(
+        "🚨 can't toValidRecordFieldName an undefined argument in toValidRecordFieldName handlebars helper"
+      )
+    }
+    if (!aString?.length) {
+      throw new Error(
+        "🚨 can't toValidRecordFieldName an empty argument in toValidRecordFieldName handlebars helper"
+      )
+    }
+
+    return isCapetilized(aString) || isReservedKeyword(aString) || hasNonAsciiChars(aString)
+      ? `\\"${aString}"`
+      : aString
   })
 
   handlebars.registerHelper('paramContainsParamType', (paramType, params) => {
@@ -82,7 +117,7 @@ function registerJSHandlebarHelpers() {
     }
 
     // formatting gets rid of any excess pipes
-    return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
+    return stringArr.reduce((acc, currentItem) => `${acc} | #${fixIfReservedKeyword(currentItem)}`, '[') + ']'
   })
 }
 

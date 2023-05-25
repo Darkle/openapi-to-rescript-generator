@@ -4,4 +4,5 @@ node_modules
 dist
 *delete-me*
 output.res
+output2.res
 lib
