@@ -22,7 +22,7 @@ Note: this is just a first pass at this. Some stuff isn't supported yet, so expe
 - The [validation structs](https://github.com/DZakh/rescript-struct) are only generated for responses and request bodies.
 - Parameters are just generated as types and have no validation.
 - We only support string enums for parameters at the moment
-- You may need to manually annotate unions. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
+- You may need to manually annotate unions in the output. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
   - Here is an example of annotating a union inline:
 
 ```
