@@ -19,7 +19,7 @@ Note: this is just a first pass at this. Some stuff isn't supported yet, so expe
 #### Limitations
 
 - Needs an [operationId](https://spec.openapis.org/oas/v3.1.0#fixed-fields-7) to be specified
-- The [Rescript validation structs](https://github.com/DZakh/rescript-struct) are only generated only for responses and request bodies.
+- The [Rescript validation structs](https://github.com/DZakh/rescript-struct) are only generated for responses and request bodies.
 - Parameters are just generated as types and have no validation.
 - We only support string enums for parameters at the moment
 - You may need to manually annotate unions. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
