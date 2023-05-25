@@ -1,6 +1,7 @@
 # Openapi to Rescript generator
 
-Note: this is just a first pass at this. Some stuff isn't supported yet. Expect some bugs.
+> **Note**
+> This is just a first pass at this. Some stuff isn't supported yet. Expect some bugs.
 
 #### Introduction:
 
@@ -13,7 +14,8 @@ Note: this is just a first pass at this. Some stuff isn't supported yet. Expect 
 #### Usage:
 
 1. Install via `npm install openapi-to-rescript-generator -g`
-2. Run `openapi-to-rescript --inputFile <inputFilePath> --outputFile <outputFilePath>`. Example: `openapi-to-rescript --inputFile ./foo/openapi.json --outputFile ./bar/output.res`
+2. Run `openapi-to-rescript --inputFile <inputFilePath> --outputFile <outputFilePath>`.
+   - Example: `openapi-to-rescript --inputFile ./foo/openapi.json --outputFile ./bar/output.res`
 3. You will then need to install [rescript struct](https://github.com/DZakh/rescript-struct#install) in your app for working with the file you created.
 
 #### Limitations
@@ -41,10 +43,7 @@ let saveLogRequestBodyStruct = S.object(o =>
         ]): S.t<[#fatal | #error | #warn | #info | #debug | #trace]>
       ),
     ),
-    "message": o->S.field("message", S.option(S.string())),
     "service": o->S.field("service", S.string()),
-    "error": o->S.field("error", S.option(S.string())),
-    "other": o->S.field("other", S.option(S.jsonable())),
   }
 )->S.Object.strict
 ```
@@ -91,7 +90,10 @@ type queryParams = {
 
 #### Dev:
 
+- Use [npm link](https://docs.npmjs.com/cli/v9/commands/npm-link) for trying out while developing
 - to publish a new version:
-  1. update the version in `package.json`
-  2. run `npm publish-dry-run` and check there are no wayward files listed.
-  3. run `npm build-publish`
+  1. First check it installs ok by running `npm install . -g` from the project folder and test the command works globally
+     - If it works ok, run `npm uninstall openapi-to-rescript-generator -g` to uninstall.
+  1. bump the version in `package.json`
+  1. run `npm publish-dry-run` and check there are no wayward files listed.
+  1. run `npm build-publish`

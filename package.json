@@ -6,9 +6,9 @@
   "engines": {
     "node": ">=15"
   },
-  "main": "src/index.bs.mjs",
+  "main": "src/index.bundle.mjs",
   "bin": {
-    "openapi-to-rescript": "./src/index.bs.mjs"
+    "openapi-to-rescript": "./src/index.bundle.mjs"
   },
   "type": "module",
   "keywords": [
@@ -19,10 +19,11 @@
     "dev-start": "rescript build -w",
     "start": "node ./src/index.bs.mjs",
     "//": "need to delete first, otherwise rescript ignores if not changed and make-file-executable ads a second shebang",
-    "build": "trash src/index.bs.mjs && rescript build",
-    "build-publish": "npm run build && npm run make-file-executable && npm publish",
+    "build": "trash src/index.bs.mjs && rescript build -with-deps",
+    "bundle": "esbuild src/index.bs.mjs --bundle --platform=node --tree-shaking=true --format=esm --outfile=src/index.bundle.mjs",
+    "build-publish": "npm run build && npm run bundle && npm run make-file-executable && npm publish",
     "make-file-executable": "./make-file-exec.sh",
-    "publish-dry-run": "npm run build && npm run make-file-executable && npm pack --dry-run"
+    "publish-dry-run": "npm run build && npm run bundle && npm run make-file-executable && npm pack --dry-run"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
@@ -35,7 +36,11 @@
     "rescript-struct": "^4.1.1"
   },
   "devDependencies": {
+    "esbuild": "^0.17.19",
     "eslint": "^8.41.0",
     "trash-cli": "^5.0.0"
+  },
+  "peerDependencies": {
+    "node-fetch": "^3.3.1"
   }
 }
