@@ -22,8 +22,8 @@ Note: this is just a first pass at this. Some stuff isn't supported yet, so expe
 - The [Rescript validation structs](https://github.com/DZakh/rescript-struct) are only generated only for responses and request bodies.
 - Parameters are just generated as types and have no validation.
 - We only support string enums for parameters at the moment
-- You may need to annotate unions with variants. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
-  - Here is an example of annotating a union variant inline:
+- You may need to manually annotate unions. See here for more details: https://github.com/DZakh/rescript-struct/issues/56
+  - Here is an example of annotating a union inline:
 
 ```
 let saveLogRequestBodyStruct = S.object(o =>
