@@ -49,7 +49,7 @@ let saveLogRequestBodyStruct = S.object(o =>
 )->S.Object.strict
 ```
 
-- It will error if a enum-to-poly variant conversion has a keyword in it. e.g `type queryParams = {state: [#open | #merged | #declined]}`, where `#open` is a rescript reserved keyword. I don't know a way around this. 😞
+- If an enum contains a reserved keyword, we don't convert it to a polymorphic variant and instead just set it as a string, as I don't know of a way to alias a poly variant's name.
 
 - We only do one level of parameters at the moment. e.g.
 
