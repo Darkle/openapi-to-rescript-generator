@@ -1,6 +1,6 @@
 {
   "name": "openapi-to-rescript-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "CoopCoding <coop.coding@gmail.com>",
   "license": "MIT",
   "engines": {
@@ -19,7 +19,7 @@
     "dev-start": "rescript build -w",
     "start": "node ./src/index.bs.mjs",
     "build": "rescript build",
-    "publish": "npm run build && npm run make-file-executable && npm publish",
+    "build-publish": "npm run build && npm run make-file-executable && npm publish",
     "make-file-executable": "./make-file-exec.sh",
     "publish-dry-run": "npm run build && npm run make-file-executable && npm pack --dry-run"
   },
