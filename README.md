@@ -51,7 +51,7 @@ let saveLogRequestBodyStruct = S.object(o =>
 
 - It will error if a enum-to-poly variant conversion has a keyword in it. e.g `type queryParams = {state: [#open | #merged | #declined]}`, where `#open` is a rescript reserved keyword. I don't know a way around this. 😞
 
-- We only do one level of parameters. e.g.
+- We only do one level of parameters at the moment. e.g.
 
 ```yaml
 parameters:
