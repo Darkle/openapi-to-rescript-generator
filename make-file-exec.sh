@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-sed -i '1s;^;#!/usr/bin/env node\n;' src/index.bs.mjs
-chmod +x src/index.bs.mjs
+sed -i '1s;^;#!/usr/bin/env node\n;' src/index.bundle.cjs
+chmod +x src/index.bundle.cjs

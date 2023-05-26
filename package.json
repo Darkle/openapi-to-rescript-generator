@@ -6,24 +6,27 @@
   "engines": {
     "node": ">=15"
   },
-  "main": "src/index.bs.mjs",
+  "main": "src/index.bundle.cjs",
   "bin": {
-    "openapi-to-rescript": "./src/index.bs.mjs"
+    "openapi-to-rescript": "./src/index.bundle.cjs"
   },
   "keywords": [
     "rescript",
     "openapi"
+  ],
+  "files": [
+    "src/index.bundle.cjs",
+    "src/template.hbs"
   ],
   "scripts": {
     "dev-start-watch": "rescript build -w",
     "//": "in dev we use esm build as that's what rescript outputs",
     "dev-start": "node ./src/index.bs.mjs",
     "build": "rescript build -with-deps",
-    "bundle": "",
+    "bundle": "esbuild src/index.bs.mjs --bundle --platform=node --tree-shaking=true --format=cjs --outfile=src/index.bundle.cjs",
     "build-publish": "npm run build && npm run bundle && npm run make-file-executable && npm publish",
     "make-file-executable": "./make-file-exec.sh",
-    "publish-dry-run": "npm run build && npm run bundle && npm run make-file-executable && npm pack --dry-run",
-    "postinstall": "node ./post-install.cjs"
+    "publish-dry-run": "npm run build && npm run bundle && npm run make-file-executable && npm pack --dry-run"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
