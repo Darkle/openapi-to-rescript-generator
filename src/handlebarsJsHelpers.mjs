@@ -8,7 +8,7 @@ const isReservedKeyword = word =>
   )
 
 // https://stackoverflow.com/a/69874941/2785644
-const isCapetilized = str => /\p{Lu}/u.test(str)
+const isCapetilized = str => /\p{Lu}/u.test(str.charAt(0))
 
 const hasNonAtoZChars = str => /[^a-zA-Z]/gu.test(str)
 
