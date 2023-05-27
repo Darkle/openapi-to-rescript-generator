@@ -139,7 +139,7 @@ function registerJSHandlebarHelpers() {
     return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
   })
 
-  // https://json-schema.org/draft/2020-12/json-schema-core.html#name-instance-data-model
+  // https://swagger.io/specification/v3/#data-types
   // eslint-disable-next-line complexity
   handlebars.registerHelper('convertSchemaType', schemaType => {
     if (!schemaType || !schemaType.length) {
@@ -149,6 +149,7 @@ function registerJSHandlebarHelpers() {
     if (schemaType === 'boolean') return 'bool'
     // openapi has no way to determine if number is int or float, so go with float for safety
     if (schemaType === 'number') return 'float'
+    if (schemaType === 'integer') return 'int'
     // check template.hbs
     if (schemaType === 'object') return 'jsObject'
 
