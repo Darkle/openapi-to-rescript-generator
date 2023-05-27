@@ -79,7 +79,7 @@ will be converted to:
 ```
 type queryParams = {
   tags?: array,
-  limit?: integer,
+  limit?: int,
 }
 ```
 
