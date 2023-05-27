@@ -35,6 +35,6 @@ exception DereferenceError(Js.Nullable.t<Js.Exn.t>)
 let getDirName = (esmImportMetaUrl, cjsDirname) =>
   Js.Nullable.isNullable(esmImportMetaUrl)
   // we are in CJS env
-    ? cjsDirname
+    ? Js.Option.getWithDefault("", Js.Nullable.toOption(cjsDirname))
       // we are in ESM env
     : urlFileURLToPath(urlFromBaseUrl(~input=".", ~base=esmImportMetaUrl))

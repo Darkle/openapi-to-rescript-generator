@@ -1,4 +1,7 @@
 module Api = {
+  {{!-- I dunno how else to type a literal null --}}
+  type null = LiteralJSNull
+  type jsObject = JsObject
 {{#each paths}}
   {{setVariable 'apiPath' @key}}
 
@@ -16,7 +19,7 @@ module Api = {
                 {{#if schema.enum}}
                   {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
                 {{else}}
-                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{convertSchemaType schema.type}},
                 {{/if}}
               {{/if}}
             {{/each}}
@@ -30,7 +33,7 @@ module Api = {
                   {{#if schema.enum}}
                     {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
                   {{else}}
-                    {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                    {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{convertSchemaType schema.type}},
                   {{/if}}
                 {{/if}}
               {{/each}}
@@ -44,7 +47,7 @@ module Api = {
                 {{#if schema.enum}}
                   {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
                 {{else}}
-                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{convertSchemaType schema.type}},
                 {{/if}}
               {{/if}}
             {{/each}}
@@ -58,7 +61,7 @@ module Api = {
                 {{#if schema.enum}}
                   {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{stringEnumToPolyVariant schema.enum}},
                 {{else}}
-                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{schema.type}},
+                  {{{toValidRecordFieldName name}}}{{#unless required}}?{{/unless}}: {{convertSchemaType schema.type}},
                 {{/if}}
               {{/if}}
             {{/each}}

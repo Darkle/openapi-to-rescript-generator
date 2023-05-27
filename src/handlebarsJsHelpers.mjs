@@ -138,6 +138,22 @@ function registerJSHandlebarHelpers() {
     // formatting gets rid of any excess pipes
     return stringArr.reduce((acc, currentItem) => `${acc} | #${currentItem}`, '[') + ']'
   })
+
+  // https://json-schema.org/draft/2020-12/json-schema-core.html#name-instance-data-model
+  // eslint-disable-next-line complexity
+  handlebars.registerHelper('convertSchemaType', schemaType => {
+    if (!schemaType || !schemaType.length) {
+      throw new Error('arg not set or empty in convertSchemaType handlebars helper')
+    }
+
+    if (schemaType === 'boolean') return 'bool'
+    // openapi has no way to determine if number is int or float, so go with float for safety
+    if (schemaType === 'number') return 'float'
+    // check template.hbs
+    if (schemaType === 'object') return 'jsObject'
+
+    return schemaType
+  })
 }
 
 export { registerJSHandlebarHelpers }
