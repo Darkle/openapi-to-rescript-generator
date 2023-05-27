@@ -1,9 +1,5 @@
 open NodeJs
 
-// Can't put in utils. Needs to be in each file that uses it.
-@val external importMetaUrl: Js.Nullable.t<string> = "import.meta.url"
-@val external dirname: Js.Nullable.t<string> = "globalThis.__dirname"
-
 let process = Process.process
 
 let inputFile =
@@ -48,9 +44,7 @@ Utils.refParser.dereference(.validInputFileArg, (. err, schema) => {
 
   Utils.writeFileSync(. validOutputFileArg, compiledTemplate)
 
-  let safeDirname = Utils.getDirName(importMetaUrl, dirname)
-
-  let rescriptPath = Path.resolve([safeDirname, "..", "node_modules", ".bin", "rescript"])
+  let rescriptPath = Path.resolve([Global.dirname, "..", "node_modules", ".bin", "rescript"])
 
   //Format file we just created
   let formattedOutputFile = ChildProcess.execSync(

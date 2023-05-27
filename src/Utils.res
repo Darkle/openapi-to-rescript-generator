@@ -30,11 +30,3 @@ exception ArgsError(string)
 exception InputFileNotFoundError(string)
 exception ValidationError(Js.Nullable.t<Js.Exn.t>)
 exception DereferenceError(Js.Nullable.t<Js.Exn.t>)
-
-// In dev we are ESM, in build we are CJS format
-let getDirName = (esmImportMetaUrl, cjsDirname) =>
-  Js.Nullable.isNullable(esmImportMetaUrl)
-  // we are in CJS env
-    ? Js.Option.getWithDefault("", Js.Nullable.toOption(cjsDirname))
-      // we are in ESM env
-    : urlFileURLToPath(urlFromBaseUrl(~input=".", ~base=esmImportMetaUrl))

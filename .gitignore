@@ -9,3 +9,4 @@ lib
 src/*.bs.mjs
 src/*.bundle.mjs
 src/*.bundle.cjs
+bundle

@@ -1,32 +1,32 @@
 {
   "name": "openapi-to-rescript-generator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "CoopCoding <coop.coding@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=15"
   },
-  "main": "src/index.bundle.cjs",
+  "main": "bundle/index.bundle.cjs",
   "bin": {
-    "openapi-to-rescript": "./src/index.bundle.cjs"
+    "openapi-to-rescript": "./bundle/index.bundle.cjs"
   },
   "keywords": [
     "rescript",
     "openapi"
   ],
   "files": [
-    "src/index.bundle.cjs",
-    "src/template.hbs"
+    "bundle/index.bundle.cjs",
+    "bundle/template.hbs"
   ],
   "scripts": {
     "dev-start-watch": "rescript build -w",
-    "//": "in dev we use esm build as that's what rescript outputs",
-    "dev-start": "node ./src/index.bs.mjs",
-    "build": "rescript build -with-deps",
-    "bundle": "esbuild src/index.bs.mjs --bundle --platform=node --tree-shaking=true --format=cjs --outfile=src/index.bundle.cjs",
-    "build-publish": "npm run build && npm run bundle && npm run make-file-executable && npm publish",
+    "dev-bundle-watch": "WATCH=true node ./esbuild.cjs",
+    "dev-watch": "concurrently \"npm:dev-start-watch\" \"npm:dev-bundle-watch\"",
+    "rescript-build": "rescript build -with-deps",
+    "bundle": "MINIFY=true node ./esbuild.cjs",
     "make-file-executable": "./make-file-exec.sh",
-    "publish-dry-run": "npm run build && npm run bundle && npm run make-file-executable && npm pack --dry-run"
+    "build-and-publish": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm publish",
+    "build-and-publish-dry-run": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm pack --dry-run"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
@@ -39,6 +39,7 @@
     "rescript-struct": "^4.1.1"
   },
   "devDependencies": {
+    "concurrently": "^8.0.1",
     "esbuild": "^0.17.19",
     "eslint": "^8.41.0"
   },

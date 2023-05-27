@@ -91,8 +91,9 @@ type queryParams = {
 #### Dev:
 
 - Use [npm link](https://docs.npmjs.com/cli/v9/commands/npm-link) for trying out while developing
-- to publish a new version:
-  1. First check it installs ok by running `npm install . -g` from the project folder and test the command works globally
+- Run `node bundle/index.bundle.cjs --inputFile /wherever/openapi.json --outputFile ./output.res` to run/test when developing
+- To publish a new version:
+  1. First check it installs ok by running `npm run build-and-publish-dry-run`, then `npm install . -g` from the project folder and test the command works globally
      - If it works ok, run `npm uninstall openapi-to-rescript-generator -g` to uninstall.
   1. bump the version in `package.json`
   1. run `npm publish-dry-run` and check there are no wayward files listed.
