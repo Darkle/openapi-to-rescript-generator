@@ -1,6 +1,6 @@
 {
   "name": "openapi-to-rescript-generator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "CoopCoding <coop.coding@gmail.com>",
   "license": "MIT",
   "engines": {
@@ -25,8 +25,8 @@
     "rescript-build": "rescript build -with-deps",
     "bundle": "MINIFY=true node ./esbuild.cjs",
     "make-file-executable": "./make-file-exec.sh",
-    "build-and-publish": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm publish",
-    "build-and-publish-dry-run": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm pack --dry-run"
+    "build-and-publish-dry-run": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm pack --dry-run",
+    "build-and-publish": "npm run rescript-build && npm run bundle && npm run make-file-executable && npm publish"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
